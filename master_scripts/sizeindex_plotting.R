@@ -5,12 +5,11 @@ library(RColorBrewer)
 library(scales)
 
 # read data ---------------------------------------------------------------
-variety <- read.csv("calculated_data/species_list.csv")
-genusspecies <- read.csv("calculated_data/genusspecies_list.csv")
-si_means_clim <- read.csv("master_scripts/si_means_climate.csv") 
-si_clim <- read.csv("master_scripts/si_climate.csv")
-standard <- read.csv("reports/container_assessment.csv")
-
+variety <- read.csv("data/species_list.csv")
+genusspecies <- read.csv("data/genusspecies_list.csv")
+si_means_clim <- read.csv("data/si_means_climate.csv") 
+si_clim <- read.csv("data/si_climate.csv")
+standard <- read.csv("data/container_assessment.csv")
 
 #plot bits -----------------------------------------------------
 
@@ -22,6 +21,7 @@ palette(c(alpha("forestgreen", .4), alpha("goldenrod1",.4), alpha("navyblue", .4
 crlab <- as.vector(unique(si_means_clim$climate_region))
 
 # trim data so AS2303 range --------------------------------------------------------------
+
 si_range <- si_clim[si_clim$volume >= 18,]
 si_mean_range <- si_means_clim[si_means_clim$volume >= 18,]
 
@@ -132,6 +132,25 @@ magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 legend("bottomright", crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
 
 box()
+
+
+# taper plotting ----------------------------------------------------------
+si_range$taper <- with(si_range, height_m/calliper300)
+
+windows(7,7)
+
+par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+
+plot(log10(taper) ~ logvol, data=si_range, xlab="Container volume (L)", 
+     ylab="Slenderness Index (H/D)", ylim=c(-2.5, -.1), xlim=c(.75,3.75),
+     axes=FALSE, cex=.6, col=climate_region, pch=16)
+
+magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+
+legend("topright", crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
+
+box()
+
 
 # variation plotting ------------------------------------------------------
 

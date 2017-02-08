@@ -10,7 +10,8 @@ si_means_clim <- read.csv("master_scripts/si_means_climate.csv")
 si_clim <- read.csv("master_scripts/si_climate.csv")
 standard <- read.csv("reports/container_assessment.csv")
 
-##drop small containers (5L and 14L)
+# trim data so AS2303 range --------------------------------------------------------------
+
 si_range <- si_clim[si_clim$volume >= 18,]
 si_means_range <- si_means_clim[si_means_clim$volume >= 18,]
 
