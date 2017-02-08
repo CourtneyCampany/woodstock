@@ -1,10 +1,10 @@
 
 # read data ---------------------------------------------------------------
 
-si_means_clim <- read.csv("master_scripts/si_means_climate.csv") 
-si_clim <- read.csv("master_scripts/si_climate.csv")
+si_means_clim <- read.csv("data/si_means_climate.csv") 
+si_clim <- read.csv("data/si_climate.csv")
 
-standard <- read.csv("reports/container_assessment.csv")
+standard <- read.csv("data/container_assessment.csv")
 
 
 # plot bits ---------------------------------------------------------------
@@ -30,7 +30,7 @@ library(plover)
 
 ##all data
 hist_bygroup(sizeindex-predsizeindex, climate_region, data=si_clim, breaks=300, 
-             col=cols2, what="density", xlim=c(-200,200))
+             col=palette(), what="density", xlim=c(-200,200))
 
 #100L example
 trees100 <- subset(si_clim,volume==100)

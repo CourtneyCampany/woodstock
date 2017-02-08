@@ -3,11 +3,11 @@ library(ggplot2)
 
 # read data ---------------------------------------------------------------
 
-variety <- read.csv("calculated_data/species_list.csv")
-genusspecies <- read.csv("calculated_data/genusspecies_list.csv")
-si_means_clim <- read.csv("master_scripts/si_means_climate.csv") 
-si_clim <- read.csv("master_scripts/si_climate.csv")
-standard <- read.csv("reports/container_assessment.csv")
+variety <- read.csv("data/species_list.csv")
+genusspecies <- read.csv("data/genusspecies_list.csv")
+si_means_clim <- read.csv("data/si_means_climate.csv") 
+si_clim <- read.csv("data/si_climate.csv")
+standard <- read.csv("data/container_assessment.csv")
 origin <- read.csv("data/species_origin.csv")
 
 # species info plotting ---------------------------------------------------
