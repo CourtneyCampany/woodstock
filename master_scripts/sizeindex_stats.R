@@ -1,4 +1,6 @@
 
+library(visreg)
+library(nlme)
 
 # read data ---------------------------------------------------------------
 
@@ -9,3 +11,7 @@ standard <- read.csv("data/container_assessment.csv")
 # model size index (H*D) with climate -------------------------------------
 
 
+si_mod <- lm(sizeindex ~ MAT*volume, data=si_clim)
+
+
+visreg(si_mod, "volume", by = "MAT", overlay=TRUE)
