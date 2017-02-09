@@ -1,0 +1,72 @@
+---
+title: "Untitled"
+author: "Court Campany"
+date: "9 February 2017"
+output:
+  ioslides_presentation:
+    css: wtc_custom.css
+    logo: img/hielogo.png
+    smaller: yes
+    transition: faster
+    widescreen: yes
+runtime: shiny
+---
+
+
+## Fieldwork Summary: 23 Total Nursery visits (leaflet)
+<hr>
+<br />
+
+## Aims
+<hr>
+<br />
+
+<IMG STYLE="position:absolute; TOP:200px; LEFT:75px; WIDTH:400px; HEIGHT:400px" SRC="data/concept.png">
+
+<div style="float: right; width: 50%;">
+<br />
+
+* <strong>Evalute Root:Shoot balance in nursery trees for landscape use</strong>  
+  + Research trials from April 2016 - January 2017
+  + 23 Total Nurserys
+  + Each mainlaind State/Territory
+  + Conatinerized Trees measured for Size Index variables, and more
+  + Each batch of trees measured as sound Above and belowground morphology
+  
+## How well did we do?
+<hr>
+<br />
+
+<IMG STYLE="position:absolute; TOP:175px; LEFT:450px; WIDTH:475px; HEIGHT:475px" SRC="img/treecounts.png">
+
+## What kind of trees did we capture?
+<hr>
+<br />
+
+<IMG STYLE="position:absolute; TOP:175px; LEFT:450px; WIDTH:475px; HEIGHT:475px" SRC="img/treetype.png">
+
+## Large species coverage
+<hr>
+<br />
+
+## Container sizes from 18L to 3000L 
+<hr>
+<br />
+
+## Database of Size Index information (13800 trees)
+<hr>
+<br />
+
+* shiny figure all data with add range
+
+
+## AS2303 assesses independtly of species
+<hr>
+<br />
+
+* SI figure with means and prediction interval (95%)
+
+## Overall, a poor fit
+<hr>
+<br />
+

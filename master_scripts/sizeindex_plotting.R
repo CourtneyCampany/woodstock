@@ -1,5 +1,4 @@
 library(doBy)
-library(ggplot2)
 library(magicaxis)
 library(RColorBrewer)
 library(scales)
@@ -33,7 +32,7 @@ windows(7,7)
 par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
 plot(log10(sizeindex.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
      ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
-     axes=FALSE, cex=1, col=climate_region, pch=16)
+     axes=FALSE, cex=1, col=alpha("forestgreen", .6), pch=16)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
@@ -48,13 +47,15 @@ box()
 
 
 ##all data
+png(filename = "hia_meeting/img/allsi.png", width = 11, height = 8.5, units = "in", res= 400)
+
 windows(7,7)
 
 par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
 
 plot(logSI ~ logvol, data=si_range, xlab="Container volume (L)", 
      ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
-     axes=FALSE, cex=.6, col=climate_region, pch=16)
+     axes=FALSE, cex=1.25, bg=alpha("olivedrab3", .5), pch=21)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
@@ -63,10 +64,11 @@ lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,l
 lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
 
 legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
-legend(x=2.95, y=1.35 , crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
+# legend(x=2.95, y=1.35 , crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
 
 box()
 
+dev.off()
 
 # plot height data -----------------------------------------------------------
 
