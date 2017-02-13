@@ -54,26 +54,28 @@ leaflet() %>% addTiles%>%
  
 ```
 
-## Aims: Evalute Root:Shoot balance in nursery trees
+## Aims: Evalute root to shoot balance in nursery trees
 <hr>
 <br />
+<br />
 
-<IMG STYLE="position:absolute; TOP:200px; LEFT:25px; WIDTH:500px; HEIGHT:400px" SRC="img/concept.png">
+<IMG STYLE="position:absolute; TOP:175px; LEFT:125px; WIDTH:360px; HEIGHT:480px" SRC="img/measuring.jpg">
 
 <div style="float: right; width: 50%;">
-<br />
-<br />
-<br />
 
   + Research trials from April 2016 - January 2017
   
-  + 23 Total Nurserys
+<br />
+
+  + Each mainland State/Territory
   
-  + Each mainlaind State/Territory
-  
+<br />
+
   + Containerized trees measured for Size Index variables and more
   
-  + Each batch of trees measured had sound above and belowground morphology
+<br />
+
+  + Each batch of trees measured had sound above- and belowground morphology
   
 ## 13800 trees measured overall
 <hr>
@@ -122,7 +124,7 @@ kable(volumetop, format = "html", table.attr= 'class="table table-hover"', align
 <IMG STYLE="position:absolute; TOP:200px; LEFT:600px; WIDTH:336px; HEIGHT:448px" SRC="img/3000tree.jpg">
 
 
-## Database of Size Index information
+## Large Size Index database
 <hr>
 <br />
 
@@ -134,13 +136,15 @@ kable(volumetop, format = "html", table.attr= 'class="table table-hover"', align
 
 <IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/si_95pred.png">
 
-## Overall, a poor fit
+## Are size index specifications in AS2303 too narrow?
 <hr>
 <br />
 
 <IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/passfail.png">
 
 ## Can we resolve which volumes are over/under?
+<hr>
+<br />
 
 ```{r overunder1, echo = FALSE, message=FALSE}
 si_freq <- read.csv("data/si_freq.csv")
@@ -179,6 +183,8 @@ shinyApp(
 ```
 
 ## Can we resolve which species are over/under?
+<hr>
+<br />
 
 ```{r overunder2, echo = FALSE, message=FALSE}
 species_freq <- si_freq[si_freq$species %in% c("corymbia_maculata","platanus_acerifolia","araucaria_heterophylla",
@@ -232,17 +238,22 @@ shinyApp(
 <IMG STYLE="position:absolute; TOP:200px; LEFT:15px; WIDTH:500px; HEIGHT:400px" SRC="img/concept.png">
 
 <div style="float: right; width: 60%;">
-<br />
-<br />
-<br />
 
   + Which factors explain differences in Size Index best?
   
+<br />
+  
   + How much variation is driven by climate? by nursery?
+  
+<br />  
   
   + Which nursery practices stand out? Soil, Fertilization, etc.
   
+<br />  
+  
   + We know there is a massive species effect, can we categorize them?
+  
+<br />  
   
   + How sensitive are height and diameter?
 
@@ -514,8 +525,10 @@ shinyApp(
   + <p>Nursery visits <span style="color:#cc2904; font-size:18pt">(&#10003;)</span><p>
   + <p>Size Index and tree shape data <span style="color:#cc2904; font-size:18pt">(&#10003;)</span><p>
   + <p>Climate Data <span style="color:#cc2904; font-size:18pt">(&#10003;)</span><p>
-  + <p>Batch history of tree stock <span style="color:#cc2904; font-size:18pt">( )</span><p> 
-  + <p>Nursery Practices <span style="color:#cc2904; font-size:18pt">( )</span><p> 
+  + <p>Batch history of tree stock <span style="color:#cc2904; font-size:18pt">(&#10008;)</span><p> 
+  + <p>Nursery Practices <span style="color:#cc2904; font-size:18pt">(&#10008;)</span><p> 
+  
+<IMG STYLE="position:absolute; TOP:200px; LEFT:525px; WIDTH:400px; HEIGHT:400px" SRC="img/data.jpg">  
 
 ## Next Steps: Report back to industry
 <hr>
@@ -524,13 +537,13 @@ shinyApp(
 <div style="float: left; width: 60%;">
 <br />
 
-* <strong>Anaylsis: What does data driven Size Index tell us </strong> 
-  + When/Where/Why are tree stock too big or too small?
+* <strong>Analysis: What does data driven Size Index tell us </strong> 
+  + When/Where/Why are stock too big or too small?
   + Is there an appropriate upper and lower limit?
 
 <br />
 
-* <strong>Is there a means to reduce the variation for look-up tables?</strong>   
+* <strong>Is there method to reduce the variation?</strong>   
  + Broad categories by species, climate, structural morphology
  + Or is there a better metric to calculate aboveground size?
   

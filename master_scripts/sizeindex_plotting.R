@@ -14,8 +14,8 @@ standard <- read.csv("data/container_assessment.csv")
 
 silab <- expression(Size~index~range~~(calliper~x~height))
 
-palette(c(alpha("forestgreen", .4), alpha("goldenrod1",.4), alpha("navyblue", .4), alpha("firebrick2", .4),
-          alpha("darkorchid3", .4), alpha("deepskyblue1", .4)))
+palette(c(alpha("forestgreen", .5), alpha("goldenrod1",.5), alpha("navyblue", .5), alpha("firebrick2", .5),
+          alpha("darkorchid3", .5), alpha("deepskyblue1", .5)))
 
 crlab <- as.vector(unique(si_means_clim$climate_region))
 
@@ -26,7 +26,7 @@ svlab <- expression(Stem~volume~index~~(cm^3))
 si_range <- si_clim[si_clim$volume >= 18,]
 si_mean_range <- si_means_clim[si_means_clim$volume >= 18,]
 
-si_range$stemvolume <- with(si_range, (height_m*100) * ((calliper300/10)^2))
+  si_range$stemvolume <- with(si_range, (height_m*100) * ((calliper300/10)^2))
 
 #plot SI data -----------------------------------------------------------
 
@@ -84,11 +84,11 @@ png(filename = "hia_meeting/img/height.png", width = 11, height = 8.5, units = "
 par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
 plot(log10(height_m.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
      ylab="Hieght (m)", xlim=c(1,3.7),ylim=c(0,1),
-     axes=FALSE, cex=1, col=climate_region, pch=16)
+     axes=FALSE, cex=1.25, bg=climate_region, pch=21)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
-legend("bottomright", crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
+legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02)
 
 box()
 dev.off()
@@ -120,11 +120,11 @@ png(filename = "hia_meeting/img/diameter.png", width = 11, height = 8.5, units =
 par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
 plot(log10(calliper300.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
      ylab="Diameter @ 30cm (mm)", xlim=c(1,3.7),ylim=c(.75,2.5),
-     axes=FALSE, cex=1, col=climate_region, pch=16)
+     axes=FALSE, cex=1.25, bg=climate_region, pch=21)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
-legend("bottomright", crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
+legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02)
 
 box()
 

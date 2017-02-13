@@ -6,9 +6,6 @@ library(gplots)
 library(Hmisc)
 
 # read data ---------------------------------------------------------------
-
-
-
 si_clim <- read.csv("data/si_climate.csv")
 si_range <- si_clim[si_clim$volume >= 18,]
 
@@ -33,17 +30,22 @@ silab <- expression(Size~index~range~~(calliper~x~height))
 
 # stats with climate ------------------------------------------------------
 lme0 <- lmer(logSI ~ logvol + (1|nursery/species), data=sia)
+visreg(lme0)
+coef(lme0)
 
 lme1 <- lmer(logSI ~ logvol + (1|species), data=sia)
+visreg(lme1)
 
 lme2 <- lmer(logSI ~ logvol*MAT + (1|nursery/species), data=sia)
 visreg(lme2, "logvol", by="MAT", overlay=TRUE)
 
-sia2 <- subset(sia, volume < 550)
+lme2a <- lmer(logSI ~ logvol*MAP + (1|nursery/species), data=sia)
+visreg(lme2a, "logvol", by="MAP", overlay=TRUE)
 
-lme3 <- lmer(logSI ~ logvol*climate_region + (1|nursery/species), data=sia2)
+# sia2 <- subset(sia, volume < 550)
+
+lme3 <- lmer(logSI ~ logvol*climate_region + (1|nursery/species), data=sia)
 visreg(lme3, "logvol", by="climate_region", overlay=T)
-
 
 lme4 <- lmer(logSI ~ logvol*leaf_type + (1|nursery/species), data=sia)
 visreg(lme4, "logvol", by="leaf_type", overlay=TRUE)
@@ -51,6 +53,11 @@ visreg(lme4, "logvol", by="leaf_type", overlay=TRUE)
 lme5 <- lmer(logSI ~ logvol*origin + (1|nursery/species), data=sia)
 visreg(lme5, "logvol", by="origin", overlay=TRUE)
 
+lme6 <- lmer(logSI ~ logvol+origin+MAT+MAP+climate_region+leaf_type + (1|nursery/species), data=sia)
+library(arm)
+display(lme6)
+summary(lme6)
+Anova(lme6)
 
 r <- ranef(lme0)
 windows()
