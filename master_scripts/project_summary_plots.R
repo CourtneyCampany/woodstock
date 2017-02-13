@@ -4,7 +4,13 @@ source("functions/functions.R")
 
 # read data ---------------------------------------------------------------
 si_clim <- read.csv("data/si_climate.csv")
+si_means_clim <- read.csv("data/si_means_climate.csv")
 origin <- read.csv("data/species_origin.csv")
+
+# trim data so AS2303 range --------------------------------------------------------------
+
+si_range <- si_clim[si_clim$volume >= 18,]
+si_mean_range <- si_means_clim[si_means_clim$volume >= 18,]
 
 # species info plotting ---------------------------------------------------
 origin_means <- summaryBy(species ~ origin + leaf_type, data=origin,FUN=length, keep.names = TRUE)
@@ -68,4 +74,24 @@ dev.off()
 #   science_theme +
 #   theme(legend.position="none")
 
+# volume and species specs ------------------------------------------------
 
+##most common species
+spec <- sort(table(si_range$species), decreasing = TRUE)
+spec2 <- data.frame(spec)
+spec3 <- spec2[1:10,]
+names(spec3)[1:2] <- c("Species", "Trees Measured")
+spec3$Species <- gsub("_", " ", spec3$Species)
+
+length(unique(si_range$species))
+length(unique(si_range$genus_species))
+
+write.csv(spec3, "hia_meeting/data/spectop10.csv", row.names = FALSE)
+
+##most common volume
+volumes <- sort(table(si_mean_range$volume), decreasing = TRUE)
+volumes <- data.frame(volumes)
+names(volumes)[1:2] <- c("Volume", "Batches")
+
+volumes2 <- volumes[1:11,]
+write.csv(volumes2, "hia_meeting/data/volumestop11.csv", row.names = FALSE)

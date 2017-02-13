@@ -1,3 +1,13 @@
+library(doBy)
+library(lme4)
+library(visreg)
+library(car)
+library(gplots)
+library(Hmisc)
+
+# read data ---------------------------------------------------------------
+
+
 
 si_clim <- read.csv("data/si_climate.csv")
 si_range <- si_clim[si_clim$volume >= 18,]
@@ -5,21 +15,23 @@ si_range <- si_clim[si_clim$volume >= 18,]
 si_range <- transform(si_range,
                       ID = paste(nursery, batch_id, sep="_"))
 
-library(doBy)
+standard <- read.csv("data/container_assessment.csv")
+
+# format data -------------------------------------------------------------
+
+
 sia <- summaryBy(. ~ ID, FUN=mean, keep.names=TRUE,
                  id= ~ species+origin+leaf_type+nursery+climate_region,
                  data=si_range)
 
-
 sort(table(sia$volume))
 
+# plot bits ---------------------------------------------------------------
+
+silab <- expression(Size~index~range~~(calliper~x~height))
 
 
-
-library(lme4)
-library(visreg)
-library(car)
-
+# stats with climate ------------------------------------------------------
 lme0 <- lmer(logSI ~ logvol + (1|nursery/species), data=sia)
 
 lme1 <- lmer(logSI ~ logvol + (1|species), data=sia)
@@ -40,18 +52,11 @@ lme5 <- lmer(logSI ~ logvol*origin + (1|nursery/species), data=sia)
 visreg(lme5, "logvol", by="origin", overlay=TRUE)
 
 
-
-
-
-
-
 r <- ranef(lme0)
 windows()
 par(mar=c(12,4,2,2), las=2)
 barplot(sort(r$nursery[[1]]),
         names.arg=rownames(r$nursery))
-
-
 
 
 sia45 <- subset(sia, volume == 45)
@@ -61,10 +66,10 @@ with(sia45, plot(species, logSI))
 sort(table(sia$species))
 
 
-standard <- read.csv("data/container_assessment.csv")
 
-library(gplots)
-library(Hmisc)
+# species plotting function -----------------------------------------------
+
+
 palette(rich.colors(6))
 
 plot_species <- function(spec){
@@ -93,10 +98,7 @@ dev.off()
 
 
 
-
-
-
-silab <- expression(Size~index~range~~(calliper~x~height))
+# SI by deciduous/evergreen -----------------------------------------------
 
 palette(c("blue","red"))
 plot(logSI ~ jitter(logvol,0.5), data=sia, xlab="Container volume (L)", 
@@ -109,14 +111,11 @@ lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,l
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
 
-
-
-sp <- subset(si_range, species == "magnolia_grandiflora_littlegem")
-
+# si by taper with stats -------------------------------------------------------------
 
 windows(10,6)
 par(mar=c(12,4,2,2), las=2, cex.axis=0.7)
-barplot(sort(x))
+
 
 # quantcut
 x <- with(sia, tapply(height_m/calliper300, species, median))
@@ -124,10 +123,10 @@ y <- cut(x, c(0,0.055, 0.09, 100))
 dfr <- data.frame(species=names(x), slenderclass=y)
 sia <- merge(sia, dfr, by="species")
 
+barplot(sort(x))
 
 lme6 <- lmer(logSI ~ logvol*slenderclass + (1|nursery/species), data=sia)
 visreg(lme6, "logvol", by="slenderclass", overlay=TRUE)
-
 
 
 palette(rich.colors(3))
@@ -141,9 +140,10 @@ lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,l
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
 legend("bottomright", levels(sia$slenderclass), pch=19, col=palette())
+box()
 
 
-
+# si by nursery -----------------------------------------------------------
 
 plot_nurs <- function(nurs){
   

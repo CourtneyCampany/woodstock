@@ -1,0 +1,86 @@
+---
+title: "Untitled"
+author: "Court Campany"
+date: "10 February 2017"
+output: ioslides_presentation
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## test
+
+```{r, echo = FALSE, warning=FALSE}
+si_means <- read.csv("data/si_means_shiny.csv")
+si_trim<- si_means[si_means$volume >= 18,]
+sizeindex <- si_trim[, c("nursery", "species", "climate_region", "sizeindex.mean", "volume", "MAT")]
+standard <- read.csv("data/container_assessment.csv")
+silab <- expression(Size~index~range~~(calliper~x~height))
+crlab <- as.vector(unique(si_means$climate_region))
+library(scales)
+
+
+pick<- c("ellenby tree farm", "logans", "alpine", "benara", "established tree transplanters", 
+                 "manor", "arborwest", "flemings")
+
+si_nursery <- sizeindex[sizeindex$nursery == pick[1] | sizeindex$nursery==pick[2] | sizeindex$nursery==pick[3] |
+                          sizeindex$nursery==pick[4] | sizeindex$nursery==pick[5] | sizeindex$nursery==pick[6] | 
+                          sizeindex$nursery==pick[7] | sizeindex$nursery==pick[8],]
+
+pick2<- data.frame(nursery = pick, codename = LETTERS[1:8] )
+si_nursery2 <- merge(si_nursery, pick2)
+
+
+palette(c(alpha("forestgreen", .4), alpha("goldenrod1",.4), alpha("navyblue", .4), alpha("firebrick2", .4),
+          alpha("darkorchid3", .4), alpha("deepskyblue1", .4)))
+
+shinyApp(
+  
+  ui = fluidPage(
+      titlePanel("Evaluating Tree Size Index"),
+      sidebarLayout(
+        ##type selection
+        sidebarPanel(
+        style = "border-color: #cc2904; background-color: white; border-style:dotted;border-width:medium",
+        checkboxGroupInput("whichnursery", "Pick a Nursery:",c("A" = "A", "B" = "B", "C" = "C", "D" = "D", 
+                                                            "E" = "E", "F"="F", "G"="G", "H"="H"))
+        ),
+  
+      mainPanel(
+        plotOutput('plot1'))
+  )
+  ),
+  
+  server = function(input, output, session) {
+    
+    
+    nursery_ss<- reactive({subset(si_nursery2, codename %in% input$whichnursery)
+                      })
+
+    output$plot1 <- renderPlot({
+    
+  par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+  plot(log10(sizeindex.mean) ~ log10(volume), data=si_trim, xlab="Container volume (L)", 
+     ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
+     axes=FALSE, cex=1, col=alpha("forestgreen", .6), pch=16, type='n')
+
+  magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+    
+  points(log10(nursery_ss()[[4]])~ log10(nursery_ss()[[5]]), bg=alpha("olivedrab3", .5), pch=21, cex=2)
+ 
+  #add assessment
+  lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+  lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+
+  legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
+
+  box()
+    
+  })
+  }
+)
+
+
+```
