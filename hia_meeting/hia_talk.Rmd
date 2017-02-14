@@ -33,7 +33,7 @@ sizeindex$color <- ifelse(sizeindex$climate_region == "Queensland", alpha("deeps
 ```
 
 
-## Fieldwork Summary: 23 Total Nursery visits
+## Fieldwork Summary: 23 Nursery visits
 <hr>
 <br />
 
@@ -320,88 +320,7 @@ shinyApp(
 )
 ```
 
-## Where does the variation come from? (2) Species
-<hr>
-<br />
-
-```{r si_tree, echo = FALSE, message=FALSE}
-pick_tree<- c("corymbia_maculata", "agonis_flexuosa","angophora_costata", 
-              "magnolia_grandiflora_littlegem","brachychiton_acerifolius","jacaranda_mimosifolia",
-              "araucaria_heterophylla", "ficus_microcarpa_hilliiflash")
-
-si_species <- sizeindex[sizeindex$species %in% pick_tree,]
-
-
-si_species$treecol <- ifelse(si_species$species == "corymbia_maculata", alpha("forestgreen", .7), 
-                        ifelse(si_species$species == "agonis_flexuosa", alpha("goldenrod1",.7),
-                        ifelse(si_species$species == "angophora_costata", alpha("firebrick2",.7),
-                        ifelse(si_species$species == "magnolia_grandiflora_littlegem", alpha("darkorchid3",.7),
-                        ifelse(si_species$species == "brachychiton_acerifolius", alpha("deepskyblue1",.7),
-                        ifelse(si_species$species == "jacaranda_mimosifolia", alpha("navyblue",.7),
-                        ifelse(si_species$species == "araucaria_heterophylla", alpha("darkorange2",.7),
-                        alpha("deeppink4",.6))))))))
-
-shinyApp(
-  
-  ui = fluidPage(
-      titlePanel(""),
-      sidebarLayout(
-        ##type selection
-        sidebarPanel(
-        style = "border-color: #cc2904; background-color: white; border-style:dotted;border-width:medium;
-                padding: 5px 10px 5px 20px",
-        
-        checkboxGroupInput("whichtree", "Pick a Tree:",c("Corymbia maculata" = "corymbia_maculata", 
-                                                "Agonis flexuosa" = "agonis_flexuosa", 
-                                                "Lophostemon confertus" = "lophostemon_confertus",
-                                                "Angophora costata"="angophora_costata",
-                                                "Magnolia grandiflora littlegem"="magnolia_grandiflora_littlegem",
-                                                "Brachychiton acerifolius"="brachychiton_acerifolius",
-                                                "Jacaranda mimosifolia"="jacaranda_mimosifolia",
-                                                "Araucaria heterophylla"="araucaria_heterophylla",
-                                                "Ficus microcarpa"="ficus_microcarpa_hilliiflash")),
-        
-        checkboxGroupInput("whichregion", "Pick a Climate:",c("South Australia" = "South Australia", 
-                          "New South Wales" = "New South Wales", "Western Australia" = "Western Australia",
-                          "Northern Territory" = "Northern Territory",  "Victoria" = "Victoria", 
-                          "Queensland"="Queensland"))
-        
-        ),
-  
-      mainPanel(
-        plotOutput('plot1'))
-  )
-  ),
-  
-  server = function(input, output, session) {
-    
-    
-    tree_ss<- reactive({subset(si_species, species %in% input$whichtree & climate_region %in% input$whichregion)
-                      })
-
-    output$plot1 <- renderPlot({
-    
-  par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
-  plot(log10(sizeindex.mean) ~ log10(volume), data=sizeindex, xlab="Container volume (L)", 
-       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, pch=19, col="lightgrey", cex=1.25)
-
-      magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-        
-      points(log10(tree_ss()[[4]])~ log10(tree_ss()[[5]]), col=tree_ss()[[8]], pch=19, cex=1.25)
-     
-      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
-      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
-    
-      legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
-
-      box()
-    
-  })
-  }
-)
-```
-
-## Where does the variation come from? (3) Climate Region
+## Where does the variation come from? (2) Climate Region
 <hr>
 <br />
 
@@ -453,6 +372,88 @@ shinyApp(
 )
 ```
 
+## Where does the variation come from? (3) Species
+<hr>
+<br />
+
+```{r si_tree, echo = FALSE, message=FALSE}
+pick_tree<- c("corymbia_maculata", "agonis_flexuosa","angophora_costata", 
+              "magnolia_grandiflora_littlegem","brachychiton_acerifolius","jacaranda_mimosifolia",
+              "araucaria_heterophylla", "ficus_microcarpa_hilliiflash")
+
+si_species <- sizeindex[sizeindex$species %in% pick_tree,]
+
+
+si_species$treecol <- ifelse(si_species$species == "corymbia_maculata", alpha("forestgreen", .7), 
+                        ifelse(si_species$species == "agonis_flexuosa", alpha("goldenrod1",.7),
+                        ifelse(si_species$species == "angophora_costata", alpha("firebrick2",.7),
+                        ifelse(si_species$species == "magnolia_grandiflora_littlegem", alpha("darkorchid3",.7),
+                        ifelse(si_species$species == "brachychiton_acerifolius", alpha("deepskyblue1",.7),
+                        ifelse(si_species$species == "jacaranda_mimosifolia", alpha("navyblue",.7),
+                        ifelse(si_species$species == "araucaria_heterophylla", alpha("darkorange2",.7),
+                        alpha("deeppink4",.7))))))))
+
+shinyApp(
+  
+  ui = fluidPage(
+      titlePanel(""),
+      sidebarLayout(
+        ##type selection
+        sidebarPanel(
+        style = "border-color: #cc2904; background-color: white; border-style:dotted;border-width:medium;
+                padding: 5px 10px 1px 20px",
+        
+        checkboxGroupInput("whichtree", "Pick a Tree:",c("Corymbia maculata" = "corymbia_maculata", 
+                                                "Agonis flexuosa" = "agonis_flexuosa", 
+                                                "Lophostemon confertus" = "lophostemon_confertus",
+                                                "Angophora costata"="angophora_costata",
+                                                "Magnolia grandiflora littlegem"="magnolia_grandiflora_littlegem",
+                                                "Brachychiton acerifolius"="brachychiton_acerifolius",
+                                                "Jacaranda mimosifolia"="jacaranda_mimosifolia",
+                                                "Araucaria heterophylla"="araucaria_heterophylla",
+                                                "Ficus microcarpa"="ficus_microcarpa_hilliiflash")),
+        
+        checkboxGroupInput("whichregion", "Pick a Climate:",c("South Australia" = "South Australia", 
+                          "New South Wales" = "New South Wales", "Western Australia" = "Western Australia",
+                          "Northern Territory" = "Northern Territory",  "Victoria" = "Victoria", 
+                          "Queensland"="Queensland"))
+        
+        ),
+  
+      mainPanel(
+        plotOutput('plot1'))
+  )
+  ),
+  
+  server = function(input, output, session) {
+    
+    
+    tree_ss<- reactive({subset(si_species, species %in% input$whichtree & climate_region %in% input$whichregion)
+                      })
+
+    output$plot1 <- renderPlot({
+    
+  par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+  plot(log10(sizeindex.mean) ~ log10(volume), data=sizeindex, xlab="Container volume (L)", 
+       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, pch=19, col="lightgrey", cex=1.25)
+
+      magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+        
+      points(log10(tree_ss()[[4]])~ log10(tree_ss()[[5]]), col=tree_ss()[[8]], pch=19, cex=1.25)
+     
+      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
+    
+      legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
+
+      box()
+    
+  })
+  }
+)
+```
+
+
 ## Where does the variation come from? (4) Tree Structure
 <hr>
 <br />
@@ -466,7 +467,7 @@ si_taper$thickness <- ifelse(si_taper$taper <= 0.055, "skinny",
 
 si_taper$formcol <- ifelse(si_taper$thickness == "skinny", alpha("deepskyblue1", .7), 
                         ifelse(si_taper$thickness == "average", alpha("firebrick2",.7),
-                        alpha("navyblue",.6)))
+                        alpha("navyblue",.7)))
 
 
 shinyApp(
@@ -517,7 +518,7 @@ shinyApp(
 
 ```{r si_leaves, echo = FALSE, message=FALSE}
 si_leaf <- si_trim[, c("sizeindex.mean", "volume", "leaf_type")]
-si_leaf$leafcol <- ifelse(si_leaf$leaf_type == "evergreen", alpha("forestgreen", .6), alpha("goldenrod1", .7))
+si_leaf$leafcol <- ifelse(si_leaf$leaf_type == "evergreen", alpha("forestgreen", .7), alpha("goldenrod1", .7))
 
 shinyApp(
   
@@ -615,7 +616,7 @@ shinyApp(
 <br />
 <br />
 
-* <strong>Any data related questions </strong> 
+* <strong>Any data related questions? </strong> 
 
 <br />
 
