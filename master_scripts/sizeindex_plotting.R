@@ -55,7 +55,7 @@ png(filename = "hia_meeting/img/allsi.png", width = 11, height = 8.5, units = "i
 
 # windows(7,7)
 
-par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
 
 plot(logSI ~ logvol, data=si_range, xlab="Container volume (L)", 
      ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
@@ -64,10 +64,10 @@ plot(logSI ~ logvol, data=si_range, xlab="Container volume (L)",
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
 #add assessment
-lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
-lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
 
-legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
+legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1.25)
 # legend(x=2.95, y=1.35 , crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
 
 box()
@@ -77,18 +77,16 @@ dev.off()
 # plot height data -----------------------------------------------------------
 
 ##means
-windows(7,7)
-
 png(filename = "hia_meeting/img/height.png", width = 11, height = 8.5, units = "in", res= 600)
 
-par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
 plot(log10(height_m.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
      ylab="Hieght (m)", xlim=c(1,3.7),ylim=c(0,1),
      axes=FALSE, cex=1.25, bg=climate_region, pch=21)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
-legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02)
+legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02, cex=1.25)
 
 box()
 dev.off()
@@ -97,7 +95,7 @@ dev.off()
 ##all data
 windows(7,7)
 
-par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
 
 plot(logH ~ logvol, data=si_range, xlab="Container volume (L)", 
      ylab="Hieght (m)", xlim=c(1,3.7),ylim=c(-.3,1),
@@ -113,18 +111,17 @@ box()
 # plot diameter data -----------------------------------------------------------
 
 ##means
-windows(7,7)
 
 png(filename = "hia_meeting/img/diameter.png", width = 11, height = 8.5, units = "in", res= 600)
 
-par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
 plot(log10(calliper300.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
      ylab="Diameter @ 30cm (mm)", xlim=c(1,3.7),ylim=c(.75,2.5),
      axes=FALSE, cex=1.25, bg=climate_region, pch=21)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
-legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02)
+legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02, cex=1.25)
 
 box()
 
@@ -170,7 +167,7 @@ box()
 ##all data
 png(filename = "hia_meeting/img/stemvolume.png", width = 11, height = 8.5, units = "in", res= 600)
 
-par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
 
 plot(log10(stemvolume) ~ logvol, data=si_range, xlab="Container volume (L)", 
      ylab=svlab, xlim=c(1,3.7),ylim=c(1,6),

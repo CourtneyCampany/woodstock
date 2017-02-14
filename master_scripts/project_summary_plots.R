@@ -38,7 +38,7 @@ groups <- origin_means$species
 png(filename = "hia_meeting/img/treetype.png", width = 11, height = 8.5, units = "in", res= 400)
 
 par(mar=c(5,5,1,1), cex.axis=.95, cex.lab = 1, las=1)
-barplot(origin_means$species, ylab="Trees Measured", names.arg = origin_means$treetype, ylim=c(0,100))
+barplot(origin_means$species, ylab="Species Measured", names.arg = origin_means$treetype, ylim=c(0,100))
 box()
 axis(side = 1, labels=groups, at <- c(.7, 1.9, 3.1, 4.3), line=-2.5, lty="blank", cex.axis=1.25)
 
@@ -82,11 +82,11 @@ spec2 <- data.frame(spec)
 spec3 <- spec2[1:10,]
 names(spec3)[1:2] <- c("Species", "Trees Measured")
 spec3$Species <- gsub("_", " ", spec3$Species)
+#unique nursery count for each species
+nurserylist <- data.frame(Nurseries = c(10, 12,10, 7, 12,5,9,9,12,9))
+spec4 <- cbind(spec3, nurserylist)
 
-length(unique(si_range$species))
-length(unique(si_range$genus_species))
-
-write.csv(spec3, "hia_meeting/data/spectop10.csv", row.names = FALSE)
+write.csv(spec4, "hia_meeting/data/spectop10.csv", row.names = FALSE)
 
 ##most common volume
 volumes <- sort(table(si_mean_range$volume), decreasing = TRUE)
@@ -94,4 +94,9 @@ volumes <- data.frame(volumes)
 names(volumes)[1:2] <- c("Volume", "Batches")
 
 volumes2 <- volumes[1:11,]
-write.csv(volumes2, "hia_meeting/data/volumestop11.csv", row.names = FALSE)
+
+nurserylist2 <- data.frame(Nurseries = c(18, 17,16,6,7,8,3, 7,8, 16,6))
+
+volumes3 <- cbind(volumes2, nurserylist2)
+
+write.csv(volumes3, "hia_meeting/data/volumestop11.csv", row.names = FALSE)

@@ -23,12 +23,12 @@ crlab <- as.vector(unique(si_means$climate_region))
 transcol <- alpha("firebrick1", alpha=.4)
 
 
-sizeindex$color <- ifelse(sizeindex$climate_region == "South Australia", alpha("forestgreen", .4), "black")
-sizeindex$color <- ifelse(sizeindex$climate_region == "New South Wales", alpha("goldenrod1",.4), sizeindex$color)
-sizeindex$color <- ifelse(sizeindex$climate_region == "Western Australia", alpha("navyblue", .4), sizeindex$color)
-sizeindex$color <- ifelse(sizeindex$climate_region == "Northern Territory", alpha("firebrick2",.4), sizeindex$color)
-sizeindex$color <- ifelse(sizeindex$climate_region == "Victoria", alpha("darkorchid3",.4), sizeindex$color)
-sizeindex$color <- ifelse(sizeindex$climate_region == "Queensland", alpha("deepskyblue1",.4), sizeindex$color)
+sizeindex$color <- ifelse(sizeindex$climate_region == "South Australia", alpha("forestgreen", .7), "black")
+sizeindex$color <- ifelse(sizeindex$climate_region == "New South Wales", alpha("goldenrod1",.7), sizeindex$color)
+sizeindex$color <- ifelse(sizeindex$climate_region == "Western Australia", alpha("navyblue", .7), sizeindex$color)
+sizeindex$color <- ifelse(sizeindex$climate_region == "Northern Territory", alpha("firebrick2",.7), sizeindex$color)
+sizeindex$color <- ifelse(sizeindex$climate_region == "Victoria", alpha("darkorchid3",.7), sizeindex$color)
+sizeindex$color <- ifelse(sizeindex$climate_region == "Queensland", alpha("deepskyblue1",.7), sizeindex$color)
 
 ```
 
@@ -77,7 +77,7 @@ leaflet() %>% addTiles%>%
 
   + Each batch of trees measured had sound above- and belowground morphology
   
-## 13800 trees measured overall
+## 13820 trees measured overall
 <hr>
 <br />
 
@@ -95,7 +95,7 @@ leaflet() %>% addTiles%>%
 
 <style type="text/css">
 .table {
-    width: 40%;
+    width: 45%;
 }
 </style>
 
@@ -112,17 +112,15 @@ kable(speciesinfo, format = "html", table.attr='class="table table-hover"')
 <hr>
 <br />
 
-
 ```{r voltable, warning=FALSE, message=FALSE, echo=FALSE, results='asis'}
 volumetop <- read.csv("data/volumestop11.csv", check.names = FALSE)
 
 library(knitr)
-kable(volumetop, format = "html", table.attr= 'class="table table-hover"', align = 'lr')
+kable(volumetop, format = "html", table.attr= 'class="table table-hover"', align = 'lrr')
 
 ```
 
-<IMG STYLE="position:absolute; TOP:200px; LEFT:600px; WIDTH:336px; HEIGHT:448px" SRC="img/3000tree.jpg">
-
+<IMG STYLE="position:absolute; TOP:200px; LEFT:625px; WIDTH:336px; HEIGHT:448px" SRC="img/3000tree.jpg">
 
 ## Large Size Index database
 <hr>
@@ -135,6 +133,12 @@ kable(volumetop, format = "html", table.attr= 'class="table table-hover"', align
 <br />
 
 <IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/si_95pred.png">
+
+## AS2303 assesses independently of species
+<hr>
+<br />
+
+<IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/si_95pred2.png">
 
 ## Are size index specifications in AS2303 too narrow?
 <hr>
@@ -301,11 +305,11 @@ shinyApp(
 
       magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
         
-      points(log10(nursery_ss()[[4]])~ log10(nursery_ss()[[5]]), col=alpha("red", .6), pch=19,cex=1.25)
+      points(log10(nursery_ss()[[4]])~ log10(nursery_ss()[[5]]), col=alpha("firebrick2", .7), pch=19,cex=1.25)
      
       #add assessment
-      lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
-      lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
     
       legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
 
@@ -321,23 +325,21 @@ shinyApp(
 <br />
 
 ```{r si_tree, echo = FALSE, message=FALSE}
-pick_tree<- c("corymbia_maculata", "agonis_flexuosa", "lophostemon_confertus", "angophora_costata", 
+pick_tree<- c("corymbia_maculata", "agonis_flexuosa","angophora_costata", 
               "magnolia_grandiflora_littlegem","brachychiton_acerifolius","jacaranda_mimosifolia",
               "araucaria_heterophylla", "ficus_microcarpa_hilliiflash")
 
 si_species <- sizeindex[sizeindex$species %in% pick_tree,]
 
 
-si_species$treecol <- ifelse(si_species$species == "corymbia_maculata", alpha("forestgreen", .4), 
-                        ifelse(si_species$species == "agonis_flexuosa", alpha("goldenrod1",.4),
-                        ifelse(si_species$species == "lophostemon_confertus", alpha("navyblue",.4),     
-                        ifelse(si_species$species == "angophora_costata", alpha("firebrick2",.4),
-                        ifelse(si_species$species == "magnolia_grandiflora_littlegem", alpha("darkorchid3",.4),
-                        ifelse(si_species$species == "brachychiton_acerifolius", alpha("deepskyblue1",.4),
-                        ifelse(si_species$species == "jacaranda_mimosifolia", alpha("indianred3",.4),
-                        ifelse(si_species$species == "araucaria_heterophylla", alpha("yellow2",.4),
-                        # ifelse(si_species$species == "ficus_microcarpa_hilliiflash", alpha("cornflowerblue",.4),
-                       alpha("yellow2",.4)))))))))
+si_species$treecol <- ifelse(si_species$species == "corymbia_maculata", alpha("forestgreen", .7), 
+                        ifelse(si_species$species == "agonis_flexuosa", alpha("goldenrod1",.7),
+                        ifelse(si_species$species == "angophora_costata", alpha("firebrick2",.7),
+                        ifelse(si_species$species == "magnolia_grandiflora_littlegem", alpha("darkorchid3",.7),
+                        ifelse(si_species$species == "brachychiton_acerifolius", alpha("deepskyblue1",.7),
+                        ifelse(si_species$species == "jacaranda_mimosifolia", alpha("navyblue",.7),
+                        ifelse(si_species$species == "araucaria_heterophylla", alpha("darkorange2",.7),
+                        alpha("deeppink4",.6))))))))
 
 shinyApp(
   
@@ -346,16 +348,24 @@ shinyApp(
       sidebarLayout(
         ##type selection
         sidebarPanel(
-        style = "border-color: #cc2904; background-color: white; border-style:dotted;border-width:medium",
+        style = "border-color: #cc2904; background-color: white; border-style:dotted;border-width:medium;
+                padding: 5px 10px 5px 20px",
+        
         checkboxGroupInput("whichtree", "Pick a Tree:",c("Corymbia maculata" = "corymbia_maculata", 
-                                                          "Agonis flexuosa" = "agonis_flexuosa", 
-                                                          "Lophostemon confertus" = "lophostemon_confertus",
-                                                          "Angophora costata"="angophora_costata",
+                                                "Agonis flexuosa" = "agonis_flexuosa", 
+                                                "Lophostemon confertus" = "lophostemon_confertus",
+                                                "Angophora costata"="angophora_costata",
                                                 "Magnolia grandiflora littlegem"="magnolia_grandiflora_littlegem",
                                                 "Brachychiton acerifolius"="brachychiton_acerifolius",
                                                 "Jacaranda mimosifolia"="jacaranda_mimosifolia",
                                                 "Araucaria heterophylla"="araucaria_heterophylla",
-                                                "Ficus microcarpa"="ficus_microcarpa_hilliiflash"))
+                                                "Ficus microcarpa"="ficus_microcarpa_hilliiflash")),
+        
+        checkboxGroupInput("whichregion", "Pick a Climate:",c("South Australia" = "South Australia", 
+                          "New South Wales" = "New South Wales", "Western Australia" = "Western Australia",
+                          "Northern Territory" = "Northern Territory",  "Victoria" = "Victoria", 
+                          "Queensland"="Queensland"))
+        
         ),
   
       mainPanel(
@@ -366,22 +376,21 @@ shinyApp(
   server = function(input, output, session) {
     
     
-    tree_ss<- reactive({subset(si_species, species %in% input$whichtree)
+    tree_ss<- reactive({subset(si_species, species %in% input$whichtree & climate_region %in% input$whichregion)
                       })
 
     output$plot1 <- renderPlot({
     
   par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
   plot(log10(sizeindex.mean) ~ log10(volume), data=sizeindex, xlab="Container volume (L)", 
-       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, type='n')
+       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, pch=19, col="lightgrey", cex=1.25)
 
       magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
         
-      points(log10(tree_ss()[[4]])~ log10(tree_ss()[[5]]), bg=tree_ss()[[8]], pch=21, cex=2)
+      points(log10(tree_ss()[[4]])~ log10(tree_ss()[[5]]), col=tree_ss()[[8]], pch=19, cex=1.25)
      
-      #add assessment
-      lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
-      lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
     
       legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
 
@@ -425,15 +434,15 @@ shinyApp(
     
   par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
   plot(log10(sizeindex.mean) ~ log10(volume), data=sizeindex, xlab="Container volume (L)", 
-       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, type='n')
+       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, pch=19, col="lightgrey", cex=1.25)
 
       magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
         
-      points(log10(region_ss()[[4]])~ log10(region_ss()[[5]]), bg=region_ss()[,7], pch=21, cex=2)
+      points(log10(region_ss()[[4]])~ log10(region_ss()[[5]]), col=region_ss()[,7], pch=19, cex=1.25)
      
       #add assessment
-      lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
-      lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
     
       legend("topleft", "AS2303 Size Index Range", lty=1, lwd=2, bty='n', inset=.01)
     
@@ -455,9 +464,9 @@ si_taper$taper <- with(si_taper, height_m.mean/calliper300.mean)
 si_taper$thickness <- ifelse(si_taper$taper <= 0.055, "skinny", 
                              ifelse(si_taper$taper > 0.055 & si_taper$taper < 0.09, "average","wide"))
 
-si_taper$formcol <- ifelse(si_taper$thickness == "skinny", alpha("forestgreen", .4), 
-                        ifelse(si_taper$thickness == "average", alpha("goldenrod1",.4),
-                        alpha("navyblue",.4)))
+si_taper$formcol <- ifelse(si_taper$thickness == "skinny", alpha("deepskyblue1", .7), 
+                        ifelse(si_taper$thickness == "average", alpha("firebrick2",.7),
+                        alpha("navyblue",.6)))
 
 
 shinyApp(
@@ -485,15 +494,15 @@ shinyApp(
     
   par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
   plot(log10(sizeindex.mean) ~ log10(volume), data=sizeindex, xlab="Container volume (L)", 
-       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, type='n')
+       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, pch=19, col="lightgrey", cex=1.25)
 
       magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
         
-      points(log10(taper_ss()[[1]])~ log10(taper_ss()[[2]]), bg=taper_ss()[[7]], pch=21, cex=2)
+      points(log10(taper_ss()[[1]])~ log10(taper_ss()[[2]]), col=taper_ss()[[7]], pch=19, cex=1.25)
      
       #add assessment
-      lines(log10(min_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
-      lines(log10(max_size_index[1:36])~log10(container_volume[1:36]), data=standard,lwd=2)
+      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
     
       legend("topleft", "AS2303 Size Index Range", lty=1, lwd=2, bty='n', inset=.01)
     
@@ -504,13 +513,64 @@ shinyApp(
 )
 ```
 
-## Where does the variation come from? (5) Height
+## Where does the variation come from? (5) Tree type
+
+```{r si_leaves, echo = FALSE, message=FALSE}
+si_leaf <- si_trim[, c("sizeindex.mean", "volume", "leaf_type")]
+si_leaf$leafcol <- ifelse(si_leaf$leaf_type == "evergreen", alpha("forestgreen", .6), alpha("goldenrod1", .7))
+
+shinyApp(
+  
+  ui = fluidPage(
+      titlePanel(""),
+      sidebarLayout(
+        ##type selection
+        sidebarPanel(
+        style = "border-color: #cc2904; background-color: white; border-style:dotted;border-width:medium",
+        checkboxGroupInput("whichleaf", "Pick a Tree:",c("Evergreen" = "evergreen", "Deciduous" = "deciduous"))
+        ),
+  
+      mainPanel(
+        plotOutput('plot1'))
+  )
+  ),
+  
+  server = function(input, output, session) {
+    
+    
+    leaf_ss<- reactive({subset(si_leaf, leaf_type %in% input$whichleaf)
+                      })
+
+    output$plot1 <- renderPlot({
+    
+  par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1.25,las=0,mgp=c(3,1,0))
+  plot(log10(sizeindex.mean) ~ log10(volume), data=sizeindex, xlab="Container volume (L)", 
+       ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),axes=FALSE, pch=19, col="lightgrey", cex=1.25)
+
+      magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+        
+      points(log10(leaf_ss()[[1]])~ log10(leaf_ss()[[2]]), col=leaf_ss()[[4]], pch=19,cex=1.25)
+     
+      #add assessment
+      segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+      segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
+    
+      legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01)
+
+      box()
+    
+  })
+  }
+)
+```
+
+## Where does the variation come from? (6) Height
 <hr>
 <br />
 
 <IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/height.png">
 
-## Where does the variation come from? (6) Diameter
+## Where does the variation come from? (7) Diameter
 <hr>
 <br />
 
@@ -548,12 +608,6 @@ shinyApp(
  + Or is there a better metric to calculate aboveground size?
   
 <IMG STYLE="position:absolute; TOP:250px; LEFT:650px; WIDTH:378px; HEIGHT:270px" SRC="img/si_95pred.png">  
-  
-## Example: Stem volume 
-<hr>
-<br />
-
-<IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/stemvolume.png">
 
 ## Questions?
 <hr>
@@ -574,3 +628,9 @@ shinyApp(
 * <strong>Data sharing/repository</strong> 
 
 <IMG STYLE="position:absolute; TOP:200px; LEFT:525px; WIDTH:400px; HEIGHT:400px" SRC="img/eucpic.jpg">
+
+## Example: Stem volume 
+<hr>
+<br />
+
+<IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/stemvolume.png">
