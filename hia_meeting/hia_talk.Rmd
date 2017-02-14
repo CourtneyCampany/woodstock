@@ -555,14 +555,22 @@ shinyApp(
 
 <IMG STYLE="position:absolute; TOP:175px; LEFT:175px; WIDTH:700px; HEIGHT:500px" SRC="img/stemvolume.png">
 
-## ?Any Questions?
+## Questions?
 <hr>
+<br />
+<br />
 <br />
 
 * <strong>Any data related questions </strong> 
 
+<br />
+
 * <strong>Defining categorical parameters </strong> 
   + Soils
   + Fertilization
+
+<br />
   
 * <strong>Data sharing/repository</strong> 
+
+<IMG STYLE="position:absolute; TOP:200px; LEFT:525px; WIDTH:400px; HEIGHT:400px" SRC="img/eucpic.jpg">
