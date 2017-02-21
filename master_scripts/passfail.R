@@ -47,6 +47,11 @@ doesfit_func <- function(x) {
 
 test_si <- doesfit_func(si_range)
 
+#subset of test_si for plotting
+si_passfail <- test_si[, c(1:20, 49)]
+write.csv(si_passfail, "data/si_passfail.csv", row.names = FALSE)
+
+
 table(test_si$balanced)
 
 slices <- c(9508,4312) 
@@ -58,18 +63,3 @@ lbls <- paste(lbls,"%",sep="") # ad % to labels
 png(filename = "hia_meeting/img/passfail.png", width = 11, height = 8.5, units = "in", res= 600)
 pie3D(slices,labels=lbls,explode=0.1,shade=.5, theta=1, col=c("red", "forestgreen"))
 dev.off()
-
-#code chunk example for R group
-
-# ```{r piechart, echo=FALSE, message=FALSE, warning=FALSE}
-# # 3D Exploded Pie Chart
-# library(plotrix)
-# slices <- c(9508,4312) 
-# lbls <- c("Fail", "PASS")
-# pct <- round(slices/sum(slices)*100)
-# lbls <- paste(lbls, pct) # add percents to labels 
-# lbls <- paste(lbls,"%",sep="") # ad % to labels
-# pie3D(slices,labels=lbls,explode=0.1,
-#       main="Individual Tree Success Rate")
-# ```
-
