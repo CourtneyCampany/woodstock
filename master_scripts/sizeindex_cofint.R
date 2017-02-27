@@ -17,10 +17,9 @@ si_mod <- lm(logSI ~ logvol, data=si_range)
 volseq <- seq(min(si_range$logvol), max(si_range$logvol), length=501)
 si_pred95 <- predict(si_mod, newdata = data.frame(logvol = volseq), interval="prediction", level=0.95)
 
+silab <- expression(Size~index~range~~(calliper~x~height))
 
 # plot CI -----------------------------------------------------------------
-
-silab <- expression(Size~index~range~~(calliper~x~height))
 
 # windows(7,7)
 
@@ -96,10 +95,12 @@ box()
 
 
 # figure with fitting points highlighted ----------------------------------
+
 library(extrafont)
 library(showtext)
+halfgreen <- alpha("forestgreen", .4)
 
-googfonts <- font.families.google()
+# googfonts <- font.families.google()
 
 si_passfail <- read.csv( "data/si_passfail.csv")
 
@@ -125,12 +126,13 @@ segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
 lines(volseq, si_pred95[,2], lty=2, lwd=2,col="royalblue")
 lines(volseq, si_pred95[,3], lty=2, lwd=2,col="royalblue")
 
-points(logSI ~ logvol, data=si_passfail[si_passfail$balanced=="pass",], col=alpha("forestgreen", .4), pch=16)
+points(logSI ~ logvol, data=si_passfail[si_passfail$balanced=="pass",], col=halfgreen, pch=16)
 
-legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=8)
-legend(x=.92, y= 3.62,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=8)
+legend(x=.92, y= 3.75, "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=8)
+legend(x=.92, y= 3.55,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=8)
 
-legend("bottomright", "31% of Measured Trees inside range", inset=.01, cex=8, bty='n')
+legend(x=2.4, y=1, "31% of measured trees inside specified range", inset=.01, 
+       cex=8, bty='n', pch=16, col="forestgreen", pt.cex=1)
 
 box()
 
