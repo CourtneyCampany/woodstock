@@ -98,7 +98,7 @@ box()
 
 library(extrafont)
 library(showtext)
-halfgreen <- alpha("forestgreen", .4)
+halfgreen <- alpha("forestgreen", .2)
 
 # googfonts <- font.families.google()
 
@@ -107,11 +107,16 @@ si_passfail <- read.csv( "data/si_passfail.csv")
 # font.files()
 # font.paths()
 font.add(regular ="GothamNarrow-Book.otf", "gotham")
+#font.add(regular ="ChronicleTextG1-Roman-Pro.otf", "chronic")
 
-png(filename = "output/si_passfail.png", width = 11, height = 8.5, units = "in", res= 600)
+# png(filename = "output/si_passfail.png", width = 11, height = 8.5, units = "in", res= 600)
 
+###png output doesnt work properly with showtext (cex is messed up???)
+
+windows()
 showtext.begin()
-par(mar=c(5,5,2,1),cex.axis=8, cex.lab=8,las=0,mgp=c(3,1,0))
+
+par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
 
 plot(logSI ~ logvol, data=si_range, xlab="Container volume (L)", 
      ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
@@ -128,14 +133,16 @@ lines(volseq, si_pred95[,3], lty=2, lwd=2,col="royalblue")
 
 points(logSI ~ logvol, data=si_passfail[si_passfail$balanced=="pass",], col=halfgreen, pch=16)
 
-legend(x=.92, y= 3.75, "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=8)
-legend(x=.92, y= 3.55,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=8)
+legend(x=.92, y= 3.75, "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
+legend(x=.92, y= 3.55,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=1)
 
-legend(x=2.4, y=1, "31% of measured trees inside specified range", inset=.01, 
-       cex=8, bty='n', pch=16, col="forestgreen", pt.cex=1)
+legend(x=1.8, y=.6, "31% of measured trees inside specified range", inset=.01, 
+       cex=1, bty='n', pch=16, col="forestgreen", pt.cex=1)
 
 box()
 
 showtext.end()
 
-dev.off()
+dev.copy2pdf(file= "output/si_passfail.pdf")  
+dev.off() 
+
