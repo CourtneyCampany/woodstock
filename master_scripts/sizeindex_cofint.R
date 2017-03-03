@@ -99,6 +99,9 @@ box()
 library(extrafont)
 library(showtext)
 halfgreen <- alpha("forestgreen", .2)
+halfred <- alpha("firebrick3", .2)
+evercol <- alpha("forestgreen", .3)
+decidcol <- alpha("goldenrod1", .3)
 
 # googfonts <- font.families.google()
 
@@ -122,7 +125,7 @@ plot(logSI ~ logvol, data=si_range, xlab="Container volume (L)",
      ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
      axes=FALSE, cex=1.25, col=alpha("lightgrey", .2), pch=16)
 
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=TRUE)
 
 #add assessment
 segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
@@ -131,15 +134,34 @@ segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
 lines(volseq, si_pred95[,2], lty=2, lwd=2,col="royalblue")
 lines(volseq, si_pred95[,3], lty=2, lwd=2,col="royalblue")
 
-points(logSI ~ logvol, data=si_passfail[si_passfail$balanced=="pass",], col=halfgreen, pch=16)
+points(logSI ~ logvol, data=si_passfail[si_passfail$balanced=="pass",], col=halfred, pch=16)
 
-legend(x=.92, y= 3.75, "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
-legend(x=.92, y= 3.55,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=1)
+# legend(x=.92, y= 3.75, "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
+# legend(x=.92, y= 3.55,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=1)
+# 
+#  legend(x=1, y= 3.35, "32% of trees inside specified range", inset=.01, 
+#         cex=1, bty='n', pch=16, col="firebrick", pt.cex=1)
+ 
+legend(x=.92, y= 3.75, c("AS2303 Size Index Range" ,"95% Prediction Interval","32% of trees fit inside specified range"),
+       lty=c(1,2,0), pch=c(NA,NA,16), pt.cex=1,inset=01, bty='n', col=c("black","black","firebrick")) 
 
-legend(x=1.8, y=.6, "31% of measured trees inside specified range", inset=.01, 
-       cex=1, bty='n', pch=16, col="forestgreen", pt.cex=1)
+##inset
 
-box()
+par(fig=c(0.55, 0.95, 0.15,0.5), new=T, mar=c(2,2,0,0), cex=.7, las=0, cex.axis=.7, cex.lab=.7, tcl=-.25,mgp=c(2,1,0))
+plot(logSI ~ logvol, data=si_range[si_range$volume==35,], xlab="Container volume (L)", 
+     ylab=silab, xlim=c(1.4,1.7),ylim=c(.9,2.2), col=c(decidcol,evercol)[leaf_type],
+     axes=FALSE, cex=1.25, pch=16)
+
+magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=TRUE, labels=FALSE)
+axis(2, at=c(log10(10), log10(20),log10(50), log10(100)), labels =c(10,20,50, 100), tick=FALSE, line=-1)
+axis(1, at=c(log10(30), log10(40), log10(50)), labels =c(30,40,50), tick=FALSE, line=-1)
+
+#add assessment
+segments(x0=1.47,y0=1.55, x1=1.6, y1=1.66, lwd=2)
+segments(x0=1.47,y0=1.72, x1=1.6, y1=1.83, lwd=2)
+
+legend("topright", c("Deciduous", "Evergreen"), col=c("goldenrod1","forestgreen"),inset=.03, 
+       cex=1, bty='n', pch=16, pt.cex=1, title= "35 L" )
 
 showtext.end()
 
