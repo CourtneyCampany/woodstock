@@ -136,19 +136,13 @@ lines(volseq, si_pred95[,3], lty=2, lwd=2,col="royalblue")
 
 points(logSI ~ logvol, data=si_passfail[si_passfail$balanced=="pass",], col=halfred, pch=16)
 
-# legend(x=.92, y= 3.75, "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
-# legend(x=.92, y= 3.55,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=1)
-# 
-#  legend(x=1, y= 3.35, "32% of trees inside specified range", inset=.01, 
-#         cex=1, bty='n', pch=16, col="firebrick", pt.cex=1)
- 
 legend(x=.92, y= 3.75, c("AS2303 Size Index Range" ,"95% Prediction Interval","32% of trees fit inside specified range"),
        lty=c(1,2,0), pch=c(NA,NA,16), pt.cex=1,inset=01, bty='n', col=c("black","black","firebrick")) 
 
 ##inset
 
 par(fig=c(0.55, 0.95, 0.15,0.5), new=T, mar=c(2,2,0,0), cex=.7, las=0, cex.axis=.7, cex.lab=.7, tcl=-.25,mgp=c(2,1,0))
-plot(logSI ~ logvol, data=si_range[si_range$volume==35,], xlab="Container volume (L)", 
+plot(logSI ~ jitter(logvol, .1), data=si_range[si_range$volume==35,], xlab="Container volume (L)", 
      ylab=silab, xlim=c(1.4,1.7),ylim=c(.9,2.2), col=c(decidcol,evercol)[leaf_type],
      axes=FALSE, cex=1.25, pch=16)
 
