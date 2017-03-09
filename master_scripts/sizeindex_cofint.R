@@ -116,8 +116,9 @@ font.add(regular ="GothamNarrow-Book.otf", "gotham")
 
 ###png output doesnt work properly with showtext (cex is messed up???)
 
-windows()
-showtext.begin()
+# windows()
+# showtext.begin()
+png(filename = "output/sifig.png", width = 11, height = 8.5, units = "in", res= 600)
 
 par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
 
@@ -157,8 +158,8 @@ segments(x0=1.47,y0=1.72, x1=1.6, y1=1.83, lwd=2)
 legend("topright", c("Deciduous", "Evergreen"), col=c("goldenrod1","forestgreen"),inset=.03, 
        cex=1, bty='n', pch=16, pt.cex=1, title= "35 L" )
 
-showtext.end()
+# showtext.end()
 
-dev.copy2pdf(file= "output/si_passfail.pdf")  
+# dev.copy2pdf(file= "output/si_passfail.pdf")  
 dev.off() 
 
