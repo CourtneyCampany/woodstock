@@ -1,0 +1,33 @@
+---
+title: Root to shoot balance in Australian nursery tree stock
+
+author: ""
+date: ""
+output:
+  word_document
+---
+
+\
+COURTNEY E. CAMPANY^1^ and MARK G. TJOELKER^1^
+
+\
+^1^ Hawkesbury Institute for the Environment, Western Sydney University, Locked Bag 1797, Penrith 2751 NSW, Australia
+
+
+
+### Methods
+
+## Site
+Measurement campaigns were completed at 23 wholesale tree production nurseries across 
+
+## Aboveground allometric parameters
+
+For each batch of salebale treestock height and diameter at 30cm were measured on a large subset of trees. Forty-five trees were measured for containers	&le; 45 L and 20 trees were measured for all larger sized containers.
+
+\
+Parameters related to aboveground shape and form were also collected on 
+
+## Leaf traits
+
+
+## Meteorological data

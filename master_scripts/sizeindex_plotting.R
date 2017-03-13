@@ -74,58 +74,6 @@ box()
 
 dev.off()
 
-# plot height data -----------------------------------------------------------
-
-##means
-png(filename = "hia_meeting/img/height.png", width = 11, height = 8.5, units = "in", res= 600)
-
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
-plot(log10(height_m.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
-     ylab="Hieght (m)", xlim=c(1,3.7),ylim=c(0,1),
-     axes=FALSE, cex=1.25, bg=climate_region, pch=21)
-
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-
-legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02, cex=1.25)
-
-box()
-dev.off()
-
-
-##all data
-windows(7,7)
-
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
-
-plot(logH ~ logvol, data=si_range, xlab="Container volume (L)", 
-     ylab="Hieght (m)", xlim=c(1,3.7),ylim=c(-.3,1),
-     axes=FALSE, cex=.6, col=climate_region, pch=16)
-
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-
-legend("bottomright", crlab ,pch=16,col=palette(), bty='n', inset=.01, title = "Region")
-
-box()
-
-
-# plot diameter data -----------------------------------------------------------
-
-##means
-
-png(filename = "hia_meeting/img/diameter.png", width = 11, height = 8.5, units = "in", res= 600)
-
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
-plot(log10(calliper300.mean) ~ log10(volume), data=si_mean_range, xlab="Container volume (L)", 
-     ylab="Diameter @ 30cm (mm)", xlim=c(1,3.7),ylim=c(.75,2.5),
-     axes=FALSE, cex=1.25, bg=climate_region, pch=21)
-
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-
-legend("bottomright", crlab ,pch=21,pt.bg=palette(), bty='n', inset=.02, cex=1.25)
-
-box()
-
-dev.off()
 
 ##all data
 windows(7,7)
