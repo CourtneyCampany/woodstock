@@ -1,5 +1,7 @@
 ---
 title: Root to shoot balance in Australian nursery tree stock
+---
+title: Root to shoot balance in containerized Australian nursery tree stock
 
 author: ""
 date: ""
@@ -13,12 +15,48 @@ COURTNEY E. CAMPANY^1^ and MARK G. TJOELKER^1^
 \
 ^1^ Hawkesbury Institute for the Environment, Western Sydney University, Locked Bag 1797, Penrith 2751 NSW, Australia
 
+#Introduction
 
+##Trends in Australian tree nurseries: past and present
+In 1997 the Australian federal government set a target to triple the nation’s plantation estate by 2020 with the ‘2020 Vision’ initiative (www.plantations2020.com.au). This initiative led a massive decade long expansion of plantations (>50 %) in Australia to over 2 million ha, with the majority of the increase composing of *Eucalyptus* hardwood species [@Gavran2010]. This '2020 Vision' created a shift from bare root to containerized production of tree seedlings in nurseries to meet high volume demands of forestry companies [@close2012review]. During this period, it was necessary to increase emphasis on quality seedling testing to ensure containerized seedlings had characteristics that were favorable to out-planting in a wide range of planting sites [@close2003physical]. Recently, Horticulture Innovation Australia has introduced the new '202020 Vision' that aims to increase urban green space by 20% by the year 2020 (http://202020vision.com.au). This new initiative represents a significant market shift towards landscape use and introduces a new set of challenges to the Australian tree nursery industry for the foreseeable future.  
 
-### Methods
+\
+These new challenges are highlighted by the difficulty in establishment and survival of newly planted urban trees [@nowak2004tree; @miller2015urban], and the pressure this places on individual nurseries to produce tree stock that can endure increasingly harsh environments. Hot and dry conditions in Australian cities, inconsistent irrigation, infertile soils, pests, diseases and high pressure from urban heat islands threaten the survivability of urban trees, and success of green infrastructure [@HIA2016]. Additionally, valuing trees to be selected for urban planting sometimes neglects considerations of stress endurance in favor of trees with higher aesthetic appeal [@ware1994ecological; @pandit2013effect]. Consequently, Australian tree nurseries are now expected to provide a large array of native and non-native trees species that are all capable of enduring less than ideal out-planting site conditions.
+
+\
+As planting, establishment and monitoring of trees in urban environments requires considerable investment by local Councils [@lawry2001treenet], concerns over tree stock quality and out-planting success are inevitable. Selecting the appropriate cultivar, properly preparing the out-planting site and management of out-planted trees will be wasted if the quality of the planted seedling is initially poor [@moore2001nursery]. Confounding with the demands for diverse high quality trees is that variability within tree stock is a near certainty during nursery production. This variability presents a unique challenge for nurseries attempting to produce tree stock with uniform morphological characteristics [@puttonen1997looking]. In 2015, the Australian nursery industry adopted a new standard (**AS2303**) to assess the quality of tree stock for landscape use [@ozstandard]. This new standard was designed to assess above- and belowground characteristics of production tree stock for all stages of growth. Although the **AS2303** standard is not currently mandatory, it is likely to be increasingly called upon in order to minimize risks of out-planting failure with new landscape and green infrastructure projects.
+
+##Assessing root:shoot balance in Australian tree nurseries for landscape use
+The issue of a lack of standardized method for determining root:shoot balance in nursery plants raised by @lavender1984plant still exists today. Estimates of the size of a tree aboveground are commonly generated in forestry research using the relationship between tree height and diameter [@zianis2005biomass; @picard2012manual; @hulshof2015tree]. The relationship between diameter and height represents stem formation in order to resist buckling related to weight or wind forcing [@dean1986validity], and thus is commonly used to estimate the size of the aboveground portion of an individual tree. This is advantageous to the nursery industry as these two measurements are commonly utilized morphological characterizations of seedling quality, and can provide a method to assess the aboveground bulk of a nursery tree at any given time [@clark2003specifying]. However, it is difficult to determine a quantity of roots that should exist for individual tree stock [@thompson1985seedling]. Root volume provides a simple characterization of root system morphology [@jacobs2005relative], but actual measurements of root volume may not be practical or cost effective for landscape-based nurseries producing large size trees. 
+
+\
+Depending on container size and type, there is an age window where plants exhibit optimum physiology and size, eliminating issues with low rootball occupancy or being too old with defected root systems [@ford2014improving]. This optimum window represents the time period for which a given tree stock is fit to be sold and when quality assessments are commonly conducted. However, this window is likely different for species with different growth rates, functional types (deciduous or evergreen trees), or even species origin (native/non-native). As information is gained with local nurseries, specifications for containerized plants are likely to change to more accurately match site, species, and planting time to individual stock type [@nelson1996container]. If superior morphological predictors can be identified it may be possible to modify nursery cultural techniques to improve quality [@wilson2006quality].
+
+\
+In **AS2303**, a simplified aboveground volume based parameter ('Size Index') is generated from the product of stem caliper at 300 mm and total height [@ozstandard]. This parameter, generalized for all species, is then related to the size of the container at dispatch. The assessment criteria stipulates that root occupancy inside of the container must be high, thus allowing container volume to provide an reasonable indice of root system size. Minimum and maximum acceptable values of 'Size Index' are then specified for the extremely large range of container volumes used in Australian landscape-based tree nurseries. This grading criteria provides a new method to assess the overall balance of a nursery tree, different from other international nursery standards. These other standards stipulate appropriate ranges of height, caliper, canopy spread or tree slenderness for different container sizes or rootball dimensions [@eurostandard;@usastandard; @candastandard; @britstandard]. However, most of these existing standards do not include tree balance specifications for large container sizes that are frequently utilized for growing landscape trees.
+
+\
+**AS2303** uniquely delineates a 'Size Index' range for a tree shoot system in proportion to a continuum of containers sizes starting at 20 L. This is a unique attempt to quantify and standardize above and belowground balance in landscape-based nursery tree stock produced in Australia. Proper balance between root and shoot systems is critical to increase the potential for survival of out-planted trees to landscape environments, and likely should be evaluated in quality assessments of larger nursery trees. If use of 'Size Index' and its relationship with rooting volume provides an accurate assessment of tree stock balance, it provides a tool for both Australian growers and buyers of landscape trees to use to better meet the increasing green space demands outlined in the "202020 Vision". 
+
+##Evaluating the Australian standard for nursery tree stock
+Quality assessments for nursery tree stock generally focus on 3 core parameters (height, diameter and root system size) to assess tree stock balance, albeit in different ways. The question still remains over whether specified ranges of morphological parameters or indexes used to assess the quality of tree stock accurately encompass inherent variation that exists within and among species. Large differences in growth rates exists across species or plant types, which plays a critical role in how different trees develop within nursery environments. Differences in growth rates are linked to the habitat for which a species naturally occurs, such as fast-growing trees are found in favorable habitats that support growth or trees from nutrient-poor environments are often evergreens with higher leaf longevity [@poorter1999ecological]. Whether the specified correlation between aboveground 'Size Index' and rooting volume in **AS2303** captures this variation in tree growth for the large range of deciduous, evergreen, native and non-native landscape trees produced in Australian nurseries has yet to be explicitly studied.
+
+\
+Although plants use all the same resources for growth; the construction, lifespan and relative allocation of leaves, stems, and roots vary between species [@westoby2002plant]. Given this variation in plant form, generalized allometric equations to predict aboveground tree size may not be suitable for all species without significant error [@hunter2013biomass]. As a result, the ability of the 'Size Index' parameter to be used as a general tool to correlate aboveground size to rooting volume needs to be tested empirically. Additionally, prevailing climate and different irrigation and fertilization regimes across nursery sites affect seedling quality during  production [@mattsson1997predicting]. For example, diameter growth of different native eucalpyt species is related to prevailing air temperature [@bowman2014warmer], which varies tremendously across continental Australia. The degree to which nursery practices and the wide variability in regional climate in Australia affect the current quality assessment criteria in **AS2303** is unknown and requires further evaluation.
+
+\
+If measured variation in tree stock from species differences, climate or nursery practices suggest this new index inadequately describes overall tree stock balance, however, its usage may inhibit the long-term goals of the "202020 Vision". Many existing nursery tree standards (non-Australian) include quality specifications for different classifications of tree stock (i.e. spreading, upright, evergreen, deciduous, etc.), while **AS2303** provides one single guideline for all tree stock. If empirical evaluations suggest the specified 'Size Index' approach should be amended, then further categorization of Australian tree stock represents a potential avenue to improve tree balance assessment criteria. In should also be explicitly mentioned that robust survival and field establishment experimental trials should be undertaken to ensure that current and future iterations of tree balance criteria positively correlate to out-planting success.
+
+\
+Our goal in this paper was to  
+The principal questions that we addressed were:
+
+#Methods
 
 ## Site
-Measurement campaigns were completed at 23 wholesale tree production nurseries across 
+Measurement campaigns were completed at 23 wholesale tree production nurseries across each of Australia's continental tree production market regions (Figure 1.).
+
+## Containerized trees at dispatch
 
 ## Aboveground allometric parameters
 
