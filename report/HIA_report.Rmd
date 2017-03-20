@@ -1,12 +1,14 @@
 ---
-title: Root to shoot balance in Australian nursery tree stock
----
 title: Root to shoot balance in containerized Australian nursery tree stock
-
+---
+title: ""
 author: ""
 date: ""
 output:
   word_document
+    reference_docx: manuscriptstyle_newphyt.docx
+csl: new-phytologist.csl
+bibliography: references.bib  
 ---
 
 \
@@ -48,24 +50,64 @@ Although plants use all the same resources for growth; the construction, lifespa
 If measured variation in tree stock from species differences, climate or nursery practices suggest this new index inadequately describes overall tree stock balance, however, its usage may inhibit the long-term goals of the "202020 Vision". Many existing nursery tree standards (non-Australian) include quality specifications for different classifications of tree stock (i.e. spreading, upright, evergreen, deciduous, etc.), while **AS2303** provides one single guideline for all tree stock. If empirical evaluations suggest the specified 'Size Index' approach should be amended, then further categorization of Australian tree stock represents a potential avenue to improve tree balance assessment criteria. In should also be explicitly mentioned that robust survival and field establishment experimental trials should be undertaken to ensure that current and future iterations of tree balance criteria positively correlate to out-planting success.
 
 \
-Our goal in this paper was to  
-The principal questions that we addressed were:
+Our goal in this paper was to evaluate root to shoot balance in wholesale trees nurseries across Australia through simple non-destuctive allometric measurements. This approach is necessary for production nurseries as they must evaluate the overall quality of a batch of trees at time of dispacth without sacrificing economic gains. The principal questions that we addressed were: (1) Does the evaluation of root to shoot balance in nursery stock, via Size Index, capture sufficient natural variation across the large diversity of ‘ready for dispatch’ trees in Australian nurseries. (2) Which of the components of Size Index (height and caliper), are the most variable across species and container volumes grown and used during nursery production. (3) In addition to within and among species variation, how much variation in Size Index (and its components) can be attributed to different growing climates and nursery practives.
 
 #Methods
 
-## Site
-Measurement campaigns were completed at 23 wholesale tree production nurseries across each of Australia's continental tree production market regions (Figure 1.).
+## Nursery site
+Measurement campaigns were completed at 23 wholesale tree production nurseries across each of Australia's continental tree production market regions (Figure 1.). At each nursery batches of tree stock that were currently ready for sale were identified with nursery production managers. From these batches, tree stock in containers &ge; 18 l were selected for measurements. For each nursery, the 30yr mean annual temperature (MAT) and precipitation (MAP) were downloaded for each site at 1km^2 resolution (http://www.worldclim.org/; Table 1).
 
-## Containerized trees at dispatch
+## Visual quality assessments
+Prior to data collection (explained below), an above and bewloground visual assessment of moprhological quality was completed for each selected batch of tree stock. This methodology ensures that data collection was representative of trees possessed the quality morphological attributes required by AS2303 at dispatch. First, 
+
+
+Next, 
+
+(2)	Complete visual quality assessments of above and belowground morphology (AS2303).
+aboveground structural support and form, free of pests, injury and disease
+(3) below
+sufficient rootball size, no root defects
+
 
 ## Aboveground allometric parameters
 
-For each batch of salebale treestock height and diameter at 30cm were measured on a large subset of trees. Forty-five trees were measured for containers	&le; 45 L and 20 trees were measured for all larger sized containers.
+Height and diameter at 30cm were measured on a large subset of trees for each selected batch of tree stock. Up to 45 trees were measured for containers	&le; 45 L and up to 20 trees were measured for all larger sized containers, if available. For each measured tree the "Size Index" parameter was calculated as the product of height and diameter.
+
+## Leaf and canopy traits
+Parameters related to canopy shape and form were measured for a subset of 10 trees per batch, if available. Maximum branch length for the trunk was recorded for the longest visible branch which was then doubled to estimate maximum canopy spread for each tree. Canopy length was measured from the initiation point of the lowest branch to the total height of the tree. A branchiness parameter (**b**_t) was calculated as the number of branches in a 30cm interval from the initiation point of the lowest branch. 
 
 \
-Parameters related to aboveground shape and form were also collected on 
+Leaf area and dry mass were recorded for 3 fully developed full sun leaves for each of the 10 trees, when possible. Leaves were not sampled for deciduous trees in winter or during bud-out. Additionally, some trees in large size containers  were too tall to sample leaves. 
 
-## Leaf traits
+##Data analysis
+Differences in measured parameters with container volume were analysed by mixed-effects models in R with individual tree species and nurseries as random effects. Nurseries were also considered as a fixed effect in some models to explain the variance of different nursery practives. Mixed model analyses were perfromed with the 'lme4' package in R. Explained variance (*R*^2^) of mixed models were computed as in @nakagawa2013general, in which the marginal *R*^2^ represents variance explained by fixed factors and the conditional *R*^2^ by both fixed and random factors.
 
 
-## Meteorological data
+#Results
+
+#Discussion
+
+# Tables {.unnumbered}
+
+**Table 1**. Summary infomration for each wholeslae nursery site campaign. Mean annual temperautre and precipitaion reprsent the 30 year average at each site.
+
+```{r table1, echo=FALSE, warning=FALSE}
+tab1 <- read.csv("master_scripts/table1.csv")
+library(pixiedust)
+dust(tab1)%>%
+  sprinkle_colnames("Nursery", 
+                    "Latitude (&deg;)", 
+                    "Longitude (&deg;)",
+                    "Mean annual Temperature (&deg; C)",
+                    "Mean annual precipitation (mm)",
+                    "Trees Measured (#)") %>%
+  sprinkle(rows= 1, part="head",bold=TRUE)%>%
+  sprinkle_print_method("markdown")
+```
+
+# Figures {.unnumbered}
+
+```{r figure1, fig.width=6, fig.height=7.8, echo=FALSE,  dev="png", dpi=600,eval=includeFigs}
+source("master_scripts/nursery_map.R")
+```  
+**Figure 1**. Geogrpahic location of each of the 23 nurseries were containerized trees were sampled. Measurement campaigns were conducted from April 2016 to January 2017.

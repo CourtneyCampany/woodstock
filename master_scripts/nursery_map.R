@@ -7,7 +7,7 @@ locations2 <- locations[1:23,2:3]
 region <- c("New South Wales = 4", "Northern Territory = 1", "Queensland = 5", "South Australia = 6", 
             "Victoria = 4", "Western Australia = 3")
 
-windows()
+# windows()
 par(mar=c(0,0,0,0))
 oz()
 
