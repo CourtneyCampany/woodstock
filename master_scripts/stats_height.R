@@ -7,6 +7,7 @@ library(visreg)
 library(car)
 library(gplots)
 library(Hmisc)
+library(MuMIn)
 
 # read data ---------------------------------------------------------------
 tree_stats <- read.csv("data/tree_stats.csv")
@@ -19,13 +20,15 @@ library(arm)
 display(lmeH_full)
 summary(lmeH_full)
 Anova(lmeH_full)
+AICc(lmeH_full)
+
 #diameter
 lmeD_full <- lmer(logD ~ logvol+origin+MAT+MAP+climate_region+leaf_type+crown_spread+branchper30
                   + (1|nursery/species), data=tree_stats)
 display(lmeD_full)
 summary(lmeD_full)
 Anova(lmeD_full)
-
+AICc(lmeD_full)
 
 # height parameters -------------------------------------------------------
 lmeH0 <- lmer(logH ~ logvol + (1|nursery/species), data=tree_stats)
@@ -40,7 +43,6 @@ visreg(lmeH6, "logvol", by="crown_spread", overlay=TRUE)
 lmeH7 <- lmer(logH ~ logvol*branchper30 + (1|nursery/species), data=tree_stats)
 visreg(lmeH7, "logvol", by="branchper30", overlay=TRUE)
 
-library(MuMIn)
 r.squaredGLMM(lmeH0)
 r.squaredGLMM(lmeH4)
 r.squaredGLMM(lmeH6)
@@ -48,7 +50,9 @@ r.squaredGLMM(lmeH6)
 Anova(lmeH4)
 Anova(lmeH6)
 Anova(lmeH7)
-
+#step on full model
+library(lmerTest)
+step(lmeH_full)
 
 # calliper parameters -------------------------------------------------------
 lmeD0 <- lmer(logD ~ logvol + (1|nursery/species), data=tree_stats)
@@ -70,7 +74,8 @@ r.squaredGLMM(lmeD5)
 Anova(lmeD4)
 Anova(lmeD6)
 Anova(lmeD5)
-
+#step on full model
+step(lmeD_full)
 
 # conclusions -------------------------------------------------------------
 

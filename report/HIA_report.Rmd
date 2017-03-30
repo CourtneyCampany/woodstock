@@ -70,9 +70,11 @@ Parameters related to canopy shape and form were measured on a subset of 10 tree
 Leaf area and dry mass were recorded for 3 fully developed full-sun leaves for each of the 10 subsetted trees, when possible. Leaves were not sampled for deciduous trees in winter or during bud-out. Trees with overly non-flat surfaces (e.g. *Araucaria* sp) were also not able to be scanned for leaf area in the field. Additionally, a small number of trees in very large size containers were too tall to sample leaves. 
 
 ##Data analysis
-Differences in measured size index parameters with container volume were analysed by mixed-effects models in R [@] with individual tree species and nurseries as random effects. The effects of climate, nursery practices, species origin, functional type and leaf and canopy traits on measured parameters were determined by adding them individually to the overall model,as either continuous of categorical fixed effects, with interactions with container volume. In some models nurseries were also considered as a fixed effect  to partition the variance of different nursery practices. Mixed model analyses were perfromed with the 'lme4' package in R. Explained variance (*R*^2^) of mixed models were computed as in @nakagawa2013general, in which the marginal *R*^2^ represents variance explained by fixed factors and the conditional *R*^2^ by both fixed and random factors.
+Differences in measured size index parameters with container volume were analysed by mixed-effects models in R [@] with individual tree species and nurseries as random effects. The effects of climate, nursery practices, species origin, functional type and leaf and canopy traits on measured parameters were determined by adding them individually to the overall model,as either continuous of categorical fixed effects, with interactions with container volume. In some models nurseries were also considered as a fixed effect to partition the variance of different nursery practices. Mixed model analyses were perfromed with the 'lme4' package in R. Explained variance (*R*^2^) of mixed models were computed as in @nakagawa2013general, in which the marginal *R*^2^ represents variance explained by fixed factors and the conditional *R*^2^ by both fixed and random factors.
 
 #Results
+
+##size index
 
 #Discussion
 

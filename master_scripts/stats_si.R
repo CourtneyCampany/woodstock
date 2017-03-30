@@ -53,20 +53,23 @@ visreg(lme2, "logvol", by="MAT", overlay=TRUE)
 lme2a <- lmer(logSI ~ logvol*MAP + (1|nursery/species), data=tree_stats)
 visreg(lme2a, "logvol", by="MAP", overlay=TRUE)
 
-# sia2 <- subset(sia, volume < 550)
-
+#climate region
 lme3 <- lmer(logSI ~ logvol*climate_region + (1|nursery/species), data=tree_stats)
 visreg(lme3, "logvol", by="climate_region", overlay=T)
 
+#deciduous or evergreen
 lme4 <- lmer(logSI ~ logvol*leaf_type + (1|nursery/species), data=tree_stats)
 visreg(lme4, "logvol", by="leaf_type", overlay=TRUE)
 
+#native or nonnative
 lme5 <- lmer(logSI ~ logvol*origin + (1|nursery/species), data=tree_stats)
 visreg(lme5, "logvol", by="origin", overlay=TRUE)
 
+#canopy spread
 lme6 <- lmer(logSI ~ logvol*crown_spread + (1|nursery/species), data=tree_stats)
 visreg(lme6, "logvol", by="crown_spread", overlay=TRUE)
 
+#branchiness
 lme7 <- lmer(logSI ~ logvol*branchper30 + (1|nursery/species), data=tree_stats)
 visreg(lme7, "logvol", by="branchper30", overlay=TRUE)
 
@@ -74,10 +77,22 @@ visreg(lme7, "logvol", by="branchper30", overlay=TRUE)
 # full model --------------------------------------------------------------
 lme_full <- lmer(logSI ~ logvol+origin+MAT+MAP+climate_region+leaf_type+crown_spread+branchper30
              + (1|nursery/species), data=tree_stats)
+
 library(arm)
 display(lme_full)
 summary(lme_full)
 Anova(lme_full)
+AIC(lme_full)
+
+#step on full model
+step(lme_full)
+
+
+bestmod <- lme4::lmer(formula = logSI ~ logvol + origin + leaf_type + crown_spread + 
+                        branchper30 + (1 | nursery/species), data = tree_stats)
+                      #contrasts = list(origin = "contr.SAS", leaf_type = "contr.SAS"))
+AIC(bestmod)
+r.squaredGLMM(bestmod)
 
 r <- ranef(lme0)
 windows()
