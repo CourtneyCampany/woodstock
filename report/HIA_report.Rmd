@@ -1,21 +1,21 @@
 ---
 title: Root to shoot balance in containerized Australian nursery tree stock
----
-title: ""
 author: ""
 date: ""
 output:
-  word_document
+  word_document:
     reference_docx: manuscriptstyle_newphyt.docx
 csl: new-phytologist.csl
 bibliography: references.bib  
 ---
 
-\
-COURTNEY E. CAMPANY^1^ and MARK G. TJOELKER^1^
+```{r, results="asis", echo=FALSE, warning=FALSE}
+library(knitr)
+opts_knit$set(root.dir = '../')
+```
 
-\
-^1^ Hawkesbury Institute for the Environment, Western Sydney University, Locked Bag 1797, Penrith 2751 NSW, Australia
+#Summary
+#Keywords
 
 #Introduction
 
@@ -47,18 +47,18 @@ Although plants use all the same resources for growth; the construction, lifespa
 If measured variation in tree stock from species differences, climate or nursery practices suggest this new index inadequately describes overall tree stock balance, however, its usage may inhibit the long-term goals of the "202020 Vision". Many existing nursery tree standards (non-Australian) include quality specifications for different classifications of tree stock (i.e. spreading, upright, evergreen, deciduous, etc.), while **AS2303** provides one single guideline for all tree stock. If empirical evaluations suggest the specified 'Size Index' approach should be amended, then further categorization of Australian tree stock represents a potential avenue to improve tree balance assessment criteria. In should also be explicitly mentioned that robust survival and field establishment experimental trials should be undertaken to ensure that current and future iterations of tree balance criteria positively correlate to out-planting success.
 
 \
-Our goal in this paper was to evaluate root to shoot balance in wholesale trees nurseries across Australia through simple non-destuctive allometric measurements. This approach is necessary for production nurseries as they must evaluate the overall quality of a batch of trees at time of dispacth without sacrificing economic gains. The principal questions that we addressed were: (1) Does the evaluation of root to shoot balance in nursery stock, via 'Size Index', capture sufficient natural variation across the large diversity of ‘ready for dispatch’ trees in Australian nurseries. (2) Which of the components of Size Index (height and caliper), are the most variable across species and container volumes grown and used during nursery production. (3) In addition to within and among species variation, how much variation in Size Index (and its components) can be attributed to different growing climates and nursery practives.
+Our goal in this paper was to evaluate root to shoot balance in wholesale trees nurseries across Australia through simple non-destructive allometric measurements. This approach is necessary for production nurseries as they must evaluate the overall quality of a batch of trees at time of dispacth without sacrificing economic gains. The principal questions that we addressed were: (1) Does the evaluation of root to shoot balance in nursery stock, via 'Size Index', capture sufficient natural variation across the large diversity of ‘ready for dispatch’ trees in Australian nurseries. (2) Which of the components of Size Index (height and caliper), are the most variable across species and container volumes grown and used during nursery production. (3) In addition to within and among species variation, how much variation in Size Index (and its components) can be attributed to different growing climates and nursery practices.
 
 #Methods
 
 ## Nursery site
-Measurement campaigns were completed at 23 wholesale tree production nurseries across each of Australia's continental tree production market regions (Figure 1.). Batches of tree stock that were currently ready for sale were identified with nursery production managers at each nursery. From these batches, tree stock in containers &ge; 18 l were selected for measurements. Additionally, the 30yr mean annual temperature (MAT) and precipitation (MAP) were downloaded for each nuresry site at a 1km^2 resolution (http://www.worldclim.org/; Table 1).
+Measurement campaigns were completed at 23 wholesale tree production nurseries across each of Australia's continental tree production market regions (Figure 1.). Batches of tree stock that were currently ready for sale were identified with nursery production managers at each site From these batches, tree stock in containers &ge; 18 l were selected for measurements. Additionally, the 30yr mean annual temperature (MAT) and precipitation (MAP) were downloaded for each nursery site at a 1km^2^ resolution (http://www.worldclim.org/; Table 1).
 
 ## Visual quality assessments
-Prior to data collection (explained below), an above and bewloground visual assessment of morphological quality was completed for each selected batch of tree stock. This methodology ensures that data collection was representative of trees possessed the morphological attributes required by AS2303 at dispatch. A sample tree was randomly choosen from each batch for visual assessments to represent the batch as a whole. Allometric measurements for ready to sale batches of trees stock were only compeleted if the randomly choosen representative tree passed all criteria for the above and belowground assessments. The aboveground visual testing criteria were completed on the choosen tree as specified by AS2303 [see clause 2.2 @ozstandard]. Briefly, the choosen tree was required to be self-supporting, have a symmetrical crown, have healthy leaves and crown strucutre and be free of injury, pest and disease. 
+Prior to data collection (explained below), an above and bewloground visual assessment of morphological quality was completed for each selected batch of tree stock. This methodology ensures that data collection was representative of trees possessed the morphological attributes required by AS2303 at dispatch. A sample tree was randomly chosen from each batch for visual assessments to represent the batch as a whole. Allometric measurements for ready to sale batches of trees stock were only compeleted if the randomly chosen representative tree passed all criteria for the above and belowground assessments. The aboveground visual testing criteria were completed on the chosen tree as specified by AS2303 [see clause 2.2 @ozstandard]. Briefly, the chosen tree was required to be self-supporting, have a symmetrical crown, have healthy leaves and crown structure and be free of injury, pest and disease. 
 
 \
-If the choosen tree passed all aboveground assessment criteria then the belowground assessment of rootball occupancy and root form was completed. The specified bewloground quality assessment was carried out differently for different container volumes as specified in AS2303 [see appendix B @ozstandard]. Trees in &le; 45 L containers were removed from the container to expose the entire rootball.  First, the rootball occupancy was assessed where 90% of the growing media volume (soil + roots) must stay intact around the rootball. Second, the absense of woody circling roots was checked for the outside of the rootball.  Third, a wedge shaped slice was removed from the rootball to identify if circling roots were present inside the rootball. Last, visual check for root defects (e.g. j-rooting) and proper root growth direction in an outward and downward direction from the point of initiation were assessed.  For trees in >45L containers, growing media was removed from the top surface from the trunk to the container edge of sufficient depth to assess root form and check for root defects. 
+If the chosen tree passed all aboveground assessment criteria then the belowground assessment of rootball occupancy and root form was completed. The specified bewloground quality assessment was carried out differently for different container volumes as specified in AS2303 [see appendix B @ozstandard]. Trees in &le; 45 L containers were removed from the container to expose the entire rootball. First, the rootball occupancy was assessed where 90% of the growing media volume (soil + roots) must stay intact around the rootball. Second, the absence of woody circling roots was checked for the outside of the rootball.  Third, a wedge shaped slice was removed from the rootball to identify if circling roots were present inside the rootball. Last, visual check for root defects (e.g. j-rooting) and proper root growth direction in an outward and downward direction from the point of initiation were assessed.  For trees in >45L containers, growing media was removed from the top surface from the trunk to the container edge of sufficient depth to assess root form and check for root defects. 
 
 ## Aboveground allometric parameters
 Tree height and trunk diameter at 30cm were measured on a large subset of trees for each selected batch of tree stock. Up to 45 trees were measured for containers &le; 45 L and up to 20 trees were measured for all larger sized containers, if available. The "Size Index" parameter was calculated as the product of height and trunk diameter for each measured tree.
@@ -74,15 +74,14 @@ Differences in measured size index parameters with container volume were analyse
 
 *log transformed data*
 
-#Results
+#Outputs
 
-##size index
+LIST outputs, with appropriate description and detail
 
-##height
+#Outcomes
 
-##diameter
-
-#Discussion
+#Evaluation and discussion
+#Recommedations
 
 # Tables {.unnumbered}
 
@@ -104,7 +103,7 @@ dust(tab1)%>%
 
 # Figures {.unnumbered}
 
-```{r figure1, fig.width=6, fig.height=7.8, echo=FALSE,  dev="png", dpi=600,eval=includeFigs}
+```{r figure1, fig.width=6, fig.height=7.8, echo=FALSE,  dev="png", dpi=600}
 source("master_scripts/nursery_map.R")
 ```  
 **Figure 1**. Geogrpahic location of each of the 23 nurseries were containerized trees were sampled. Measurement campaigns were conducted from April 2016 to January 2017.

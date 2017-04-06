@@ -6,42 +6,11 @@ library(gplots)
 library(Hmisc)
 
 # read data ---------------------------------------------------------------
-si_clim <- read.csv("data/si_climate.csv")
-
-si_range <- si_clim[si_clim$volume >= 18,]
-  si_range <- transform(si_range,ID = paste(nursery, batch_id, sep="_"))
-
-
-shape <- read.csv("data/tree_shape.csv")
-
-shape_range <- shape[shape$volume>=18,]
-  shape_range <- transform(shape_range,ID = paste(nursery, batch_id, sep="_"))
-
-  
-# format data and merge data -------------------------------------------------------------
-si_agg <- summaryBy(. ~ ID, FUN=mean, keep.names=TRUE,
-                 id= ~ species+origin+leaf_type+nursery+climate_region,
-                 data=si_range)
-
-shape_agg <- summaryBy(. ~ ID, FUN=mean, keep.names=TRUE,
-                       id= ~ species+origin+leaf_type+nursery+climate_region,
-                       data=shape_range)
-
-tree_dat <- merge(si_agg, shape_agg, all=TRUE)
-#by using the full size index dataset I havent deleted the batches with only one tree (done in shape data)
-#there are a few batches where no shape data exists
-#delete these batches by removing data with NA in tree number column
-rowstodelete <- which(is.na(tree_dat$treenumb))
-#also trim out monthly met data
-
-tree_stats <- tree_dat[-rowstodelete,c(1:19,44:50)]
-write.csv(tree_stats, "data/tree_stats.csv", row.names = FALSE)
-
-
+tree_stats <- read.csv("data/tree_stats.csv")
 
 # Size Index stats ------------------------------------------------------
-nullmod <- lmer(logSI ~ 1 + (1|species), data=tree_stats)  # 19% of the variance explained at species level
-nullmod2 <- lmer(logSI ~ 1 + (1|nursery/species), data=tree_stats) # dp I add variance terms?
+nullmod <- lmer(logSI ~ 1 + (1|species), data=tree_stats)  # ~20% of the variance explained at species level
+nullmod2 <- lmer(logSI ~ 1 + (1|nursery/species), data=tree_stats) # do I add variance terms?
 
 ###should nursery be included as a fixed effect to test differences in nursery practices (in the absense of fert/irrig data)?
 ###log data or raw?
@@ -110,11 +79,11 @@ bestmod <- lme4::lmer(formula = logSI ~ logvol + origin + leaf_type + crown_spre
 AIC(bestmod)
 r.squaredGLMM(bestmod)
 
-r <- ranef(lme0)
-windows()
-par(mar=c(12,4,2,2), las=2)
-barplot(sort(r$nursery[[1]]),
-        names.arg=rownames(r$nursery))
+# r <- ranef(lme0)
+# windows()
+# par(mar=c(12,4,2,2), las=2)
+# barplot(sort(r$nursery[[1]]),
+#         names.arg=rownames(r$nursery))
 
 
 
