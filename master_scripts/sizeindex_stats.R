@@ -68,7 +68,7 @@ r.squaredGLMM(lme_noform)
 lme_full_stnd2 <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nursery/species), data=tree_stats)
 VarCorr(lme_full_stnd2)
 #equal contribution of species and species within nursery
-#RESULT: nursery effect is larger thatn species within nursery effect, 
+#RESULT: nursery effect is larger than species within nursery effect, 
 #meaning that exploring species or variety level grouping of trees would not be helpful
 r.squaredGLMM(lme_full_stnd2)
 #nursery and species account for more variation tham climate or tree functional type
@@ -78,6 +78,10 @@ lme_noorgin <- update(lme_full_stnd2, . ~ . -origin) #-slenderness - crownshape
 r.squaredGLMM(lme_noorgin)
 #dropping origin results in a minor drop on R2 as there is not compete overlap between natives and tree type
 #keep it in the model and report why not as strong (but obviously still significant)
+
+#deciduous or evergreen------------------------------------------------------------------------------------------
+leafmod <- lmer(logSI ~ logvol*leaf_type + (1|nursery/species), data=tree_stats[tree_stats$volume >=1000,])
+visreg(leafmod, "logvol", by="leaf_type", overlay=TRUE)
 
 #4. test the correlation of shape parameters with leaf type or if they are independent------------------------
 #???do deciduous trees have bigger crown spread?
@@ -113,6 +117,12 @@ leafmod3 <- lmer(crown_shape ~ leaf_type + (1|nursery/species), data=tree_stats)
   Anova(leafmod4b)
   #So the effect of crown shape arises from eary age differences in crown spread not crown length with tree type
   
+#??? crown shape was different was trunk shape?  
+stemmod <-lmer(slenderness ~ leaf_type + (1|nursery/species), data=tree_stats)
+visreg(stemmod, "leaf_type", overlay=TRUE)
+summary(stemmod)
+Anova(stemmod)
+
 ##we are justified in dumping branhciness and crown shape from model as they are inherent in the leaftype effect
 ##interaction with container size and crown spread by leaftype, so drop it too
     
@@ -124,26 +134,37 @@ lme_final <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nur
   r.squaredGLMM(lme_final)
   Anova(lme_final, test="F")
   #r2=.169
-  
+
+nullmod3 <- lmer(logSI_stand ~ 1 + (1|species), data=tree_stats) #23.6%
+nullmod4 <- lmer(logSI_stand ~ 1 + (1|nursery/species), data=tree_stats) 
+  r.squaredGLMM(nullmod4) #42% explained by nursery and species
+nullmod5 <- lmer(logSI_stand ~ 1 + (1|nursery), data=tree_stats)  #22.6%
+
+##### quantify variance of the fixed effects..................  
+lme_final1 <- update(lme_final, . ~ . - leaf_type)
+  r.squaredGLMM(lme_final1)  #r2=.114 (67% of explained variation by leaf type)
+
 lme_final2 <- update(lme_final, . ~ . - origin)
   r.squaredGLMM(lme_final2)
-  #r2=.153
+  #r2=.113 (1% )
 lme_final3 <- update(lme_final, . ~ . - origin - climate_region)
   r.squaredGLMM(lme_final3)
-  #r2=.062
+  #r2=.0151
 lme_final4 <- update(lme_final, . ~ . - origin - climate_region - MAP)
   r.squaredGLMM(lme_final4)
-  #r2=.056
+  #r2=.0105
 lme_final5 <- update(lme_final, . ~ . - origin - climate_region -MAP -MAT)
   r.squaredGLMM(lme_final5)
-  #r2=.052
+  #r2=.000 ()
 
+
+  
 #6. Variable importance for the chosen final model---------------------------------
-library(randomForest)
-
-rf2 <- randomForest(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type,
-                    data=tree_stats_2)
-varImpPlot(rf2)
+# library(randomForest)
+# 
+# rf2 <- randomForest(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type,
+#                     data=tree_stats_2)
+# varImpPlot(rf2)
 
 
 # library(nlshelper)

@@ -12,4 +12,4 @@ par(mar=c(0,0,0,0))
 oz()
 
 with(locations2, points(long ,lat, pch = 21, cex = 2, bg = alpha("forestgreen", .6)))
-legend("bottomleft", title=expression(underline("Total Nurseries")), legend=region, bty='n', inset=.02)
+legend("bottomleft", title=expression(underline("Total Nurseries")), legend=region, bty='n', inset=.15)

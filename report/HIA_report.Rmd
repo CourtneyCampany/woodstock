@@ -85,7 +85,7 @@ LIST outputs, with appropriate description and detail
 
 # Tables {.unnumbered}
 
-**Table 1**. Summary infomration for each wholeslae nursery site campaign. Mean annual temperautre and precipitaion reprsent the 30 year average at each site.
+**Table 1**. Summary infomration for each wholeslae nursery site campaign. Mean annual temperautre and precipitaion represent the 30 year average at each site.
 
 ```{r table1, echo=FALSE, warning=FALSE}
 tab1 <- read.csv("master_scripts/table1.csv")
