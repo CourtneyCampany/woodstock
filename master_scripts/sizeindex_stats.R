@@ -12,8 +12,11 @@ tree_stats <- read.csv("data/tree_stats.csv")
   
   si_assess <- read.csv("data/container_assessment.csv")
   fitcon <- lm(log10(max_size_index) ~ log10(container_volume), data=si_assess)
-  #standardize SI by container volume, 
-  tree_stats$logSI_stand <- with(tree_stats, logSI / (logvol^coef(fitcon)[[2]]))
+  fitcon2 <- lm(logSI ~ logvol, data=tree_stats)
+  #use fit con 1 if standizing to the specified AS2303 criteria
+  
+  #standardize SI by container volume, using intercept from fitted model
+  tree_stats$logSI_stand <- with(tree_stats, logSI / (logvol^coef(fitcon2)[[2]]))
 
 #remove missing values
 tree_stats_2 <- tree_stats[complete.cases(tree_stats),]
@@ -140,17 +143,21 @@ nullmod4 <- lmer(logSI_stand ~ 1 + (1|nursery/species), data=tree_stats)
   r.squaredGLMM(nullmod4) #42% explained by nursery and species
 nullmod5 <- lmer(logSI_stand ~ 1 + (1|nursery), data=tree_stats)  #22.6%
 
-##### quantify variance of the fixed effects..................  
-lme_final1 <- update(lme_final, . ~ . - leaf_type)
-  r.squaredGLMM(lme_final1)  #r2=.114 (67% of explained variation by leaf type)
+##### quantify variance of the fixed effects.................. 
 
-lme_final2 <- update(lme_final, . ~ . - origin)
+##remove the smallest effect first, because each will be a new model and
+#we want to have best estimates possible
+lme_final1 <- update(lme_final, . ~ . - MAT)
+  r.squaredGLMM(lme_final1)  
+  #r2=.114 (67% of explained variation by leaf type)
+
+lme_final2 <- update(lme_final, . ~ . - -MAP -MAT)
   r.squaredGLMM(lme_final2)
   #r2=.113 (1% )
-lme_final3 <- update(lme_final, . ~ . - origin - climate_region)
+lme_final3 <- update(lme_final, . ~ . -MAP -MAT - climate_region)
   r.squaredGLMM(lme_final3)
   #r2=.0151
-lme_final4 <- update(lme_final, . ~ . - origin - climate_region - MAP)
+lme_final4 <- update(lme_final, . ~ . - -MAP -MAT - climate_region - origin)
   r.squaredGLMM(lme_final4)
   #r2=.0105
 lme_final5 <- update(lme_final, . ~ . - origin - climate_region -MAP -MAT)
