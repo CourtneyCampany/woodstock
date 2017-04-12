@@ -10,8 +10,8 @@ library(lmerTest)
 tree_stats <- read.csv("data/tree_stats.csv")
   tree_stats$crown_shape <- with(tree_stats, crown_spread/crown_length)
   
-  si_assess <- read.csv("data/container_assessment.csv")
-  fitcon <- lm(log10(max_size_index) ~ log10(container_volume), data=si_assess)
+  # si_assess <- read.csv("data/container_assessment.csv")
+  # fitcon <- lm(log10(max_size_index) ~ log10(container_volume), data=si_assess)
   fitcon2 <- lm(logSI ~ logvol, data=tree_stats)
   #use fit con 1 if standizing to the specified AS2303 criteria
   
@@ -133,14 +133,15 @@ Anova(stemmod)
 lme_final <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nursery/species), data=tree_stats)
   
   VarCorr(lme_final)
+  summary(lme_final)
   #use this as the random error in report ()
   r.squaredGLMM(lme_final)
   Anova(lme_final, test="F")
-  #r2=.169
+  #r2=.1559
 
 nullmod3 <- lmer(logSI_stand ~ 1 + (1|species), data=tree_stats) #23.6%
 nullmod4 <- lmer(logSI_stand ~ 1 + (1|nursery/species), data=tree_stats) 
-  r.squaredGLMM(nullmod4) #42% explained by nursery and species
+  r.squaredGLMM(nullmod4) #41% explained by nursery and species
 nullmod5 <- lmer(logSI_stand ~ 1 + (1|nursery), data=tree_stats)  #22.6%
 
 ##### quantify variance of the fixed effects.................. 
@@ -149,22 +150,23 @@ nullmod5 <- lmer(logSI_stand ~ 1 + (1|nursery), data=tree_stats)  #22.6%
 #we want to have best estimates possible
 lme_final1 <- update(lme_final, . ~ . - MAT)
   r.squaredGLMM(lme_final1)  
-  #r2=.114 (67% of explained variation by leaf type)
+  #r2=.1547 (<1% explainede my MAT)
 
-lme_final2 <- update(lme_final, . ~ . - -MAP -MAT)
+lme_final2 <- update(lme_final, . ~ . -MAT - MAP )
   r.squaredGLMM(lme_final2)
-  #r2=.113 (1% )
-lme_final3 <- update(lme_final, . ~ . -MAP -MAT - climate_region)
+  #r2=.1449 (6.3% explained by MAP)
+  
+lme_final3 <- update(lme_final, . ~ . -MAT - MAP - climate_region)
   r.squaredGLMM(lme_final3)
-  #r2=.0151
-lme_final4 <- update(lme_final, . ~ . - -MAP -MAT - climate_region - origin)
+  #r2=.0751 (44.7% explained by climate region)
+  
+lme_final4 <- update(lme_final, . ~ .  -MAT - MAP - climate_region - origin)
   r.squaredGLMM(lme_final4)
-  #r2=.0105
-lme_final5 <- update(lme_final, . ~ . - origin - climate_region -MAP -MAT)
-  r.squaredGLMM(lme_final5)
-  #r2=.000 ()
+  #r2=.057 this is the leaf_type effect (36.5% explained by origin)
+  #r2= mod4-3 = is the origin effect (11.6%)
+  
 
-
+##take out origin?
   
 #6. Variable importance for the chosen final model---------------------------------
 # library(randomForest)
