@@ -130,7 +130,7 @@ Anova(stemmod)
 ##interaction with container size and crown spread by leaftype, so drop it too
     
 #5. Choose final model and drop parameters and compare R2
-lme_final <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nursery/species), data=tree_stats)
+lme_final <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nursery), data=tree_stats)
   
   VarCorr(lme_final)
   summary(lme_final)
@@ -141,7 +141,7 @@ lme_final <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nur
 
 nullmod3 <- lmer(logSI_stand ~ 1 + (1|species), data=tree_stats) #23.6%
 nullmod4 <- lmer(logSI_stand ~ 1 + (1|nursery/species), data=tree_stats) 
-  r.squaredGLMM(nullmod4) #41% explained by nursery and species
+  r.squaredGLMM(nullmod5) #41% explained by nursery and species
 nullmod5 <- lmer(logSI_stand ~ 1 + (1|nursery), data=tree_stats)  #22.6%
 
 ##### quantify variance of the fixed effects.................. 

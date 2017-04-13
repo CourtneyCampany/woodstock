@@ -34,14 +34,20 @@ palette(mypal)
 evercol <- alpha("forestgreen", .4)
 decidcol <- alpha("darkgoldenrod3", .4)
 
-# hieght -------------------------------------------
 
+
+# two panels H and D ------------------------------------------------------
 si_mean_range$logvol <- with(si_mean_range, log10(volume))
 si_mean_range$logH <- with(si_mean_range, log10(height_m.mean))
 
 h_mod_evg <- lm(logH ~ logvol, data=si_mean_range[si_mean_range$leaf_type=="evergreen",])
 h_mod_dec <- lm(logH ~ logvol, data=si_mean_range[si_mean_range$leaf_type=="deciduous",])
 
+#plot rows randomly
+
+par(cex.axis=1, cex.lab=1, las=1,mgp=c(3.5,1,0),mfrow=c(2,1))
+
+# height
 windows()
 par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
 plot(logH ~ jitter(logvol, .5), data=si_mean_range, xlab="Container volume (L)", 

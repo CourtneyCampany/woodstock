@@ -5,9 +5,13 @@ library(scales)
 si_clim <- read.csv("data/si_climate.csv")
 standard <- read.csv("data/container_assessment.csv")
 
+#means data
+si_means <- read.csv("data/si_means_climate.csv")
+
 # trim data so AS2303 range --------------------------------------------------------------
 
 si_range <- si_clim[si_clim$volume >= 18,]
+si_means_range <- si_means[si_means$volume >= 18,]
 
 # simple model and predict CI ---------------------------------------------
 
@@ -20,16 +24,18 @@ si_pred95 <- predict(si_mod, newdata = data.frame(logvol = volseq), interval="pr
 silab <- expression(Size~index~range~~(calliper~x~height))
 
 # plot CI -----------------------------------------------------------------
+#density color vector
+cols<- with(si_range, densCols(logvol, logSI,colramp = colorRampPalette(blues9[-(1:2)])))
+#alpha("lightgrey", .2)
+windows(7,7)
 
-# windows(7,7)
+png(filename = "output/si_alltrees.png", width = 7, height = 7, units = "in", res= 600)
 
-# png(filename = "hia_meeting/img/si_95pred2.png", width = 11, height = 8.5, units = "in", res= 600)
-
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
+par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
 
 plot(logSI ~ logvol, data=si_range, xlab="Container volume (L)", 
      ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
-     axes=FALSE, cex=1.25, col=alpha("lightgrey", .2), pch=16)
+     axes=FALSE, cex=1.25, col=cols, pch=16)
 
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
@@ -37,19 +43,49 @@ magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
 segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
 
-lines(volseq, si_pred95[,2], lty=2, lwd=2,col="royalblue")
-lines(volseq, si_pred95[,3], lty=2, lwd=2,col="royalblue")
+lines(volseq, si_pred95[,2], lty=3, lwd=2,col="black")
+lines(volseq, si_pred95[,3], lty=3, lwd=2,col="black")
 # lines(volseq, si_pred[,1], lty=1, lwd=2,col="royalblue")
 
-legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1.25)
-legend(x=.93, y= 3.63,"95% Prediction Interval" ,lty=2, lwd=2,bty='n', col="royalblue", inset=.01, cex=1.25)
+legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
+legend(x=.93, y= 3.63,"95% Prediction Interval" ,lty=3, lwd=2,bty='n', col="black", inset=.01, cex=1)
 
-# text(x=2.9, y=1, "45L tree size index ranges from 20.6 - 135.6", cex=1.25)
-# text(x=2.91, y=.75, "100L tree size index ranges from 40.2 - 263.3", cex=1.25)
+ # text(x=3.2, y=.75, "45L tree size index ranges from 20.6 - 135.6", cex=1.1)
+ # text(x=3.21, y=.5, "100L tree size index ranges from 40.2 - 263.3", cex=1.1)
 
 box()
 
-# dev.off()
+dev.off()
+
+
+# means by tree type ------------------------------------------------------
+evercol <- alpha("forestgreen", .7)
+decidcol <- alpha("goldenrod1", .7)
+
+windows(7,7)
+
+ png(filename = "output/si_leaftype.png", width = 7, height = 7, units = "in", res= 600)
+
+par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
+
+with(si_means_range[sample(nrow(si_means_range)),],
+     plot(log10(sizeindex.mean) ~ jitter(log10(volume)), xlab="Container volume (L)", 
+     ylab=silab, xlim=c(1,3.7),ylim=c(0.3,3.7),
+     axes=FALSE, cex=1.5, col=c(decidcol,evercol)[leaf_type], pch=16))
+
+magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+
+#add assessment
+segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
+
+legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
+legend("bottomright", c("Evergreen", "Deciduous") ,pch=16,bty='n', inset=.02, pt.cex=1.5, 
+       col=c("forestgreen","goldenrod1"))
+
+box()
+
+dev.off()
 
 
 # plot with different levels of PI ----------------------------------------

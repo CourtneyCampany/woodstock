@@ -12,23 +12,54 @@ library(MuMIn)
 # read data ---------------------------------------------------------------
 tree_stats <- read.csv("data/tree_stats.csv")
 
+fitH <- lm(logH ~ logvol, data=tree_stats)
+fitD <- lm(logD ~ logvol, data=tree_stats)
+#use fit con 1 if standizing to the specified AS2303 criteria
+
+#standardize SI by container volume, using intercept from fitted model
+tree_stats$logH_stand <- with(tree_stats, logH / (logvol^coef(fitH)[[2]]))
+tree_stats$logD_stand <- with(tree_stats, logD / (logvol^coef(fitD)[[2]]))
+
 # full models as with SI--------------------------------------------------------------
 #height
-lmeH_full <- lmer(logH ~ logvol+origin+MAT+MAP+climate_region+leaf_type+crown_spread+branchper30
+lmeH_full <- lmer(logH_stand ~ origin+MAT+MAP+climate_region+leaf_type
                   + (1|nursery/species), data=tree_stats)
 library(arm)
 display(lmeH_full)
 summary(lmeH_full)
-Anova(lmeH_full)
+Anova(lmeH_full, test="F")
 AICc(lmeH_full)
+r.squaredGLMM(lmeH_full)
+visreg(lmeH_full, "")
+
+leafH <- lmer(logH_stand ~ leaf_type + (1|nursery/species), data=tree_stats)
+visreg(leafH, "leaf_type", overlay=TRUE)
+leafH2 <- lmer(logH ~ logvol*leaf_type + (1|nursery/species), data=tree_stats)
+visreg(leafH2, "leaf_type", by="logvol",overlay=TRUE)
+Anova(leafH2, test="F")
+leafH3 <- lmer(logH ~ logvol+ (1|nursery/species), data=tree_stats)
+visreg(leafH3 )
 
 #diameter
-lmeD_full <- lmer(logD ~ logvol+origin+MAT+MAP+climate_region+leaf_type+crown_spread+branchper30
+lmeD_full <- lmer(logD_stand ~ origin+MAT+MAP+climate_region+leaf_type
                   + (1|nursery/species), data=tree_stats)
 display(lmeD_full)
 summary(lmeD_full)
-Anova(lmeD_full)
+Anova(lmeD_full, test="F")
 AICc(lmeD_full)
+r.squaredGLMM(lmeD_full)
+
+leafD <- lmer(logD_stand ~ leaf_type + (1|nursery/species), data=tree_stats)
+visreg(leafH, "leaf_type", overlay=TRUE)
+Anova(leafD, test="F")
+
+leafD2 <- lmer(logD ~ logvol*leaf_type + (1|nursery/species), data=tree_stats)
+visreg(leafH2, "leaf_type", by="logvol",overlay=TRUE)
+Anova(leafD2, test="F")
+
+leafD3 <- lmer(logD_stand ~ origin + (1|nursery/species), data=tree_stats)
+visreg(leafD3, "origin", overlay=TRUE)
+Anova(leafD3, test="F")
 
 # height parameters -------------------------------------------------------
 lmeH0 <- lmer(logH ~ logvol + (1|nursery/species), data=tree_stats)
