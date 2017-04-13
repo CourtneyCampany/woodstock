@@ -17,101 +17,71 @@ standard <- read.csv("data/container_assessment.csv")
 si_range <- si_clim[si_clim$volume >= 18,]
 si_mean_range <- si_means_clim[si_means_clim$volume >= 18,]
 
-#plot bits -----------------------------------------------------
-
-silab <- expression(Size~index~range~~(calliper~x~height))
-
-palette(c(alpha("forestgreen", .5), alpha("goldenrod1",.5), alpha("navyblue", .5), alpha("firebrick2", .5),
-          alpha("darkorchid3", .5), alpha("deepskyblue1", .5)))
-
-crlab <- as.vector(unique(si_means_clim$climate_region))
-
-
-library(ggsci)
-mypal <- pal_lancet("lanonc", alpha = 0.4)(5)
-palette(mypal) 
-
-evercol <- alpha("forestgreen", .4)
-decidcol <- alpha("darkgoldenrod3", .4)
-
-
-
-# two panels H and D ------------------------------------------------------
 si_mean_range$logvol <- with(si_mean_range, log10(volume))
 si_mean_range$logH <- with(si_mean_range, log10(height_m.mean))
+si_mean_range$logD <- with(si_mean_range, log10(calliper300.mean))
 
-h_mod_evg <- lm(logH ~ logvol, data=si_mean_range[si_mean_range$leaf_type=="evergreen",])
-h_mod_dec <- lm(logH ~ logvol, data=si_mean_range[si_mean_range$leaf_type=="deciduous",])
+# two panels H and D ------------------------------------------------------
+everdat <- si_mean_range[si_mean_range$leaf_type=="evergreen",]
+deciddat <- si_mean_range[si_mean_range$leaf_type=="deciduous",]
+
+#plot bits 
+
+evercol <- alpha("forestgreen", .7)
+decidcol <- alpha("darkgoldenrod3", .7)
+
+#height and diameter models for CI
+h_mod_evg <- lm(logH ~ logvol, data=everdat)
+h_mod_dec <- lm(logH ~ logvol, data=deciddat)
+
+d_mod_evg <- lm(logD ~ logvol, data=everdat)
+d_mod_dec <- lm(logD ~ logvol, data=deciddat)
 
 #plot rows randomly
+ #windows(8,10)
+
+png(filename = "heightdiam.png", width = 7, height = 7, units = "in", res= 600)
 
 par(cex.axis=1, cex.lab=1, las=1,mgp=c(3.5,1,0),mfrow=c(2,1))
 
 # height
-windows()
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
-plot(logH ~ jitter(logvol, .5), data=si_mean_range, xlab="Container volume (L)", 
+par(mar=c(0,5,2,2),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
+with(si_mean_range[sample(nrow(si_mean_range)),],
+plot(logH ~ jitter(logvol, .5), xlab="Container volume (L)", 
      ylab="Height (m)", xlim=c(1,3.7),ylim=c(.01,1),
-     axes=FALSE, cex=1.25, col=c(decidcol,evercol)[leaf_type], pch=16)
+     axes=FALSE, cex=1.25, col=c(decidcol,evercol)[leaf_type], pch=16))
 
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-
-legend("topleft", c("Deciduous", "Evergreen"), col=c("goldenrod1","forestgreen"),inset=.03, 
-       cex=1, bty='n', pch=16, pt.cex=1 )
-
-predline(h_mod_evg, col="forestgreen",lwd=2)
-predline(h_mod_dec, col="darkgoldenrod3",lwd=2)
-
-box()
-
-
-# diameter -------------------------------------------
-
-si_mean_range$logD <- with(si_mean_range, log10(calliper300.mean))
-
-d_mod_evg <- lm(logD ~ logvol, data=si_mean_range[si_mean_range$leaf_type=="evergreen",])
-d_mod_dec <- lm(logD ~ logvol, data=si_mean_range[si_mean_range$leaf_type=="deciduous",])
-
-windows()
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
-plot(logD ~ jitter(logvol, .5), data=si_mean_range, xlab="Container volume (L)", 
-     ylab="Diameter @ 30cm (mm)", xlim=c(1,3.7),ylim=c(.75,2.5),
-     axes=FALSE, cex=1.25, col=c(decidcol,evercol)[leaf_type], pch=16)
-
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-
-legend("topleft", c("Deciduous", "Evergreen"), col=c("darkgoldenrod1","forestgreen"),inset=.03, 
-       cex=1, bty='n', pch=16, pt.cex=1 )
-
-predline(d_mod_evg, col="forestgreen",lwd=2)
-predline(d_mod_dec, col="darkgoldenrod3",lwd=2)
-
-box()
-
-##diameter and height ----------------------------------------------------------------
-
-hd_mod_evg <- lm(logH ~ logD, data=si_range[si_range$leaf_type=="evergreen",])
-hd_mod_dec <- lm(logH ~ logD, data=si_range[si_range$leaf_type=="deciduous",])
-
-
-windows()
-par(mar=c(5,5,2,1),cex.axis=1.25, cex.lab=1.5,las=0,mgp=c(3,1,0))
-plot(logH ~ jitter(logvol, .5), data=si_range, ylab="Height (m)", 
-     xlab="Diameter @ 30cm (mm)", 
-     axes=FALSE, cex=1.25, col=c(decidcol,evercol)[leaf_type], pch=16)
-
-magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
-
-
-predline(hd_mod_evg, col=evercol,lwd=2)
-predline(hd_mod_dec, col="darkgoldenrod3",lwd=2)
-
-# par(new=TRUE)
-# smoothplot(logD, logH, leaf_type,data=si_range, kgam=1,ylab="", xlab="",
-#            linecol=c(decidcol,evercol),pch="")
-
+magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE, labels=c(FALSE, TRUE))
 
 legend("topleft", c("Deciduous", "Evergreen"), col=c("goldenrod1","forestgreen"),inset=.03, 
        cex=1, bty='n', pch=16, pt.cex=1 )
 
+ablineclip(h_mod_evg, col="forestgreen",lwd=2, x1=min(everdat$logvol), 
+           x2=max(everdat$logvol), y1=min(everdat$logH), 
+           y2=max(everdat$logH))
+ablineclip(h_mod_dec, col="darkgoldenrod3",lwd=2,x1=min(deciddat$logvol), 
+           x2=max(deciddat$logvol), y1=min(deciddat$logH), 
+           y2=max(deciddat$logH))
+
 box()
+text("A", x=3.65, y=.95, cex=1.25)
+#diameter
+
+par(mar=c(5,5,0,2))
+with(si_mean_range[sample(nrow(si_mean_range)),],
+plot(logD ~ jitter(logvol, .5), xlab="Container volume (L)", 
+     ylab="Diameter @ 30cm (mm)", xlim=c(1,3.7),ylim=c(.75,2.7),
+     axes=FALSE, cex=1.25, col=c(decidcol,evercol)[leaf_type], pch=16))
+
+magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
+
+ablineclip(d_mod_evg, col="forestgreen",lwd=2, x1=min(everdat$logvol), 
+           x2=max(everdat$logvol), y1=min(everdat$logD), 
+          y2=max(everdat$logD))
+ablineclip(d_mod_dec, col="darkgoldenrod3",lwd=2,x1=min(deciddat$logvol), 
+           x2=max(deciddat$logvol), y1=min(deciddat$logD), 
+           y2=max(deciddat$logD))
+
+box()
+text("B", x=3.65, y=2.6, cex=1.25)
+dev.off()
