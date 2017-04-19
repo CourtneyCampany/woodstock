@@ -148,9 +148,9 @@ visreg(stemmod, "leaf_type", by="climate_region",overlay=TRUE)
 summary(stemmod)
 Anova(stemmod)
 
-stemmod2 <-lmer(slender_stand ~ leaf_type + (1|nursery/species), data=tree_stats)
-visreg(stemmod2, "leaf_type")
-summary(stemmod)
+stemmod2 <-lmer(slender_stand ~ climate_region + (1|nursery/species), data=tree_stats)
+visreg(stemmod2, "climate_region")
+summary(stemmod2)
 Anova(stemmod2)
 
 stemmod3 <-lmer(slenderness ~ climate_region + (1|nursery/species), data=tree_stats)
