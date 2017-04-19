@@ -17,7 +17,12 @@ tree_stats <- read.csv("data/tree_stats.csv")
   
   #standardize SI by container volume, using intercept from fitted model
   tree_stats$logSI_stand <- with(tree_stats, logSI / (logvol^coef(fitcon2)[[2]]))
-
+  #standarize other crown variables
+  fitspread <- lm(log10(crown_spread) ~ logvol, data=tree_stats)
+  tree_stats$crown_stand <- with(tree_stats, log10(crown_spread) / (logvol^coef(fitspread)[[2]]))
+  fitslender<- lm(log10(slenderness) ~ logvol, data=tree_stats)
+  tree_stats$slender_stand <- with(tree_stats, log10(slenderness) / (logvol^coef(fitslender)[[2]]))
+  
 #remove missing values
 tree_stats_2 <- tree_stats[complete.cases(tree_stats),]
   
@@ -93,11 +98,27 @@ leafmod1 <- lmer(crown_spread ~ leaf_type + (1|nursery/species), data=tree_stats
   summary(leafmod1)
   Anova(leafmod1)
   #no for all data, yes if you define lower volumes (<=400)
+  
   leafmod1b <- lmer(crown_spread ~ leaf_type + (1|nursery/species), data=tree_stats[tree_stats$volume <= 400,])
-  Anova(leafmod1b) #lower spread in deciduous for smaller trees then higher for bigger trees
+  Anova(leafmod1b, test="F") #lower spread in deciduous for smaller trees then higher for bigger trees
+  visreg(leafmod1b, "leaf_type")
+  
   leafmod1c <- lmer(crown_spread ~ logvol*leaf_type + (1|nursery/species), data=tree_stats)
   Anova(leafmod1c) #can see this with the interaction
   visreg(leafmod1c, xvar="logvol", by="leaf_type", overlay=TRUE)
+  
+  leafmod1d <- lmer(crown_stand ~ leaf_type + (1|nursery/species), data=tree_stats)
+  Anova(leafmod1d) #removed tree size effect (logvol), do I want to do this?
+  visreg(leafmod1d,"leaf_type")
+
+  leafmod1e <- lmer(crown_spread ~ leaf_type + (1|nursery/species), data=tree_stats[tree_stats$volume > 400,])
+  Anova(leafmod1e, test="F") #same at higher volumes
+  visreg(leafmod1e,"leaf_type")
+  
+  leafmod1f <- lmer(crown_spread ~ height_m * leaf_type + (1|nursery/species), data=tree_stats[tree_stats$volume <= 400,])
+  visreg(leafmod1f, xvar="height_m",by="leaf_type", overlay=TRUE)
+  summary(leafmod1f)
+  Anova(leafmod1f)
   
 #???re deciduous less branchy then evergreen during early development???
 leafmod2 <- lmer(branchper30 ~ leaf_type + (1|nursery/species), data=tree_stats)
@@ -105,6 +126,7 @@ leafmod2 <- lmer(branchper30 ~ leaf_type + (1|nursery/species), data=tree_stats)
   summary(leafmod)
   Anova(leafmod2)
   #2: yes, evergreens are more branchy 
+
 
 #???is crown shape different between leaftypes???
 leafmod3 <- lmer(crown_shape ~ leaf_type + (1|nursery/species), data=tree_stats)
@@ -121,10 +143,20 @@ leafmod3 <- lmer(crown_shape ~ leaf_type + (1|nursery/species), data=tree_stats)
   #So the effect of crown shape arises from eary age differences in crown spread not crown length with tree type
   
 #??? crown shape was different was trunk shape?  
-stemmod <-lmer(slenderness ~ leaf_type + (1|nursery/species), data=tree_stats)
-visreg(stemmod, "leaf_type", overlay=TRUE)
+stemmod <-lmer(slenderness ~ leaf_type * climate_region +(1|nursery/species), data=tree_stats)
+visreg(stemmod, "leaf_type", by="climate_region",overlay=TRUE)
 summary(stemmod)
 Anova(stemmod)
+
+stemmod2 <-lmer(slender_stand ~ leaf_type + (1|nursery/species), data=tree_stats)
+visreg(stemmod2, "leaf_type")
+summary(stemmod)
+Anova(stemmod2)
+
+stemmod3 <-lmer(slenderness ~ climate_region + (1|nursery/species), data=tree_stats)
+visreg(stemmod3, "climate_region")
+summary(stemmod3)
+Anova(stemmod3)
 
 ##we are justified in dumping branhciness and crown shape from model as they are inherent in the leaftype effect
 ##interaction with container size and crown spread by leaftype, so drop it too
