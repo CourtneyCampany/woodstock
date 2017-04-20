@@ -8,8 +8,12 @@ region <- c("New South Wales = 4", "Northern Territory = 1", "Queensland = 5", "
             "Victoria = 4", "Western Australia = 3")
 
 # windows()
+
+png(filename = "output/ozmap.png", width = 7, height = 7, units = "in", res= 600)
 par(mar=c(0,0,0,0))
 oz()
 
-with(locations2, points(long ,lat, pch = 21, cex = 2, bg = alpha("forestgreen", .6)))
-legend("bottomleft", title=expression(underline("Total Nurseries")), legend=region, bty='n', inset=.15)
+with(locations2, points(jitter(long) ,jitter(lat), pch = 21, cex = 1.5, bg = alpha("firebrick1", .5)))
+# legend("bottomleft", title=expression(underline("Total Nurseries")), legend=region, bty='n', inset=.15)
+legend("bottomleft", title=expression(underline("Total Nurseries")), legend=region, bty='n', inset=.09)
+dev.off()
