@@ -162,8 +162,8 @@ Anova(stemmod3)
 ##interaction with container size and crown spread by leaftype, so drop it too
     
 #5. Choose final model and drop parameters and compare R2
-lme_final <- lmer(logSI_stand ~ origin+MAT+MAP+climate_region+leaf_type + (1|nursery), data=tree_stats)
-  
+lme_final <- lmer(logSI_stand ~ leaf_type+ origin + MAT+MAP+climate_region + (1|nursery/species), data=tree_stats)
+  #origin
   VarCorr(lme_final)
   summary(lme_final)
   #use this as the random error in report ()
