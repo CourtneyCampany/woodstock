@@ -79,9 +79,9 @@ with(si_means_range[sample(nrow(si_means_range)),],
 magicaxis::magaxis(side=c(1,2), unlog=c(1,2), frame.plot=FALSE)
 
 #add assessment
-segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
-segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
-polygon(x=c(1.3, 3.39,3.39, 1.3), y=c(1.38, 3.21, 3.37,1.56), col=alpha("grey", .4), border=NA)
+# segments(x0=1.30,y0=1.38, x1=3.39, y1=3.21, lwd=2)
+# segments(x0=1.30,y0=1.56, x1=3.39, y1=3.37, lwd=2)
+# polygon(x=c(1.3, 3.39,3.39, 1.3), y=c(1.38, 3.21, 3.37,1.56), col=alpha("grey", .4), border=NA)
 with(si_means_range[sample(nrow(si_means_range)),],
      points(log10(sizeindex.mean) ~ jitter(log10(volume)), col=c(decidcol,evercol)[leaf_type], pch=16, cex=1.5))
 
@@ -89,7 +89,7 @@ library(plotrix)
 ablineclip(si_ever, col="forestgreen", lwd=2, x1=min(ever$logvol), x2=max(ever$logvol), y1=min(ever$logSI), y2=max(ever$logSI))
 ablineclip(si_dec, col="goldenrod1", lwd=2,x1=min(decid$logvol), x2=max(decid$logvol), y1=min(decid$logSI), y2=max(decid$logSI))
 
-legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
+# legend("topleft", "AS2303 Size Index Range" ,lty=1, lwd=2,bty='n', inset=.01, cex=1)
 legend("bottomright", c("Evergreen", "Deciduous") ,pch=16,bty='n', inset=.02, pt.cex=1.5, 
        col=c("forestgreen","goldenrod1"))
 

@@ -88,8 +88,9 @@ r.squaredGLMM(lme_noorgin)
 #keep it in the model and report why not as strong (but obviously still significant)
 
 #deciduous or evergreen------------------------------------------------------------------------------------------
-leafmod <- lmer(logSI ~ logvol*leaf_type + (1|nursery/species), data=tree_stats[tree_stats$volume >=1000,])
+leafmod <- lmer(logSI ~ logvol*leaf_type + (1|nursery/species), data=tree_stats[tree_stats$volume <400,])
 visreg(leafmod, "logvol", by="leaf_type", overlay=TRUE)
+Anova(leafmod, test='F')
 
 #4. test the correlation of shape parameters with leaf type or if they are independent------------------------
 #???do deciduous trees have bigger crown spread?
