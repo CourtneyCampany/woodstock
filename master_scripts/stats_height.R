@@ -8,6 +8,7 @@ library(car)
 library(gplots)
 library(Hmisc)
 library(MuMIn)
+library(raster)
 
 # read data ---------------------------------------------------------------
 tree_stats <- read.csv("data/tree_stats.csv")
@@ -19,6 +20,16 @@ fitD <- lm(logD ~ logvol, data=tree_stats)
 #standardize SI by container volume, using intercept from fitted model
 tree_stats$logH_stand <- with(tree_stats, logH / (logvol^coef(fitH)[[2]]))
 tree_stats$logD_stand <- with(tree_stats, logD / (logvol^coef(fitD)[[2]]))
+
+#remove missing values
+tree_stats_2 <- tree_stats[complete.cases(tree_stats),]
+cv(tree_stats_2$height_m)
+cv(tree_stats_2$calliper300)
+cv(tree_stats_2$logH_stand)
+cv(tree_stats_2$logD_stand)
+
+var(tree_stats_2$logD)
+var(tree_stats_2$logH)
 
 # full models as with SI--------------------------------------------------------------
 #height

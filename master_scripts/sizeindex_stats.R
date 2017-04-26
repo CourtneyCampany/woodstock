@@ -177,6 +177,10 @@ nullmod4 <- lmer(logSI_stand ~ 1 + (1|nursery/species), data=tree_stats)
   r.squaredGLMM(nullmod5) #41% explained by nursery and species
 nullmod5 <- lmer(logSI_stand ~ 1 + (1|nursery), data=tree_stats)  #22.6%
 
+#extract table
+library(pixiedust)
+dust(lme_final)
+
 ##### quantify variance of the fixed effects.................. 
 
 ##remove the smallest effect first, because each will be a new model and

@@ -21,13 +21,13 @@ si_mod <- lm(logSI ~ logvol, data=si_range)
 volseq <- seq(min(si_range$logvol), max(si_range$logvol), length=501)
 si_pred95 <- predict(si_mod, newdata = data.frame(logvol = volseq), interval="prediction", level=0.95)
 
-silab <- expression(Size~index~range~~(calliper~x~height))
+silab <- expression(Size~Index~~(calliper~x~height))
 
 # plot CI -----------------------------------------------------------------
 #density color vector
 cols<- with(si_range, densCols(logvol, logSI,colramp = colorRampPalette(blues9[-(1:2)])))
 #alpha("lightgrey", .2)
-windows(7,7)
+# windows(7,7)
 
 png(filename = "output/si_alltrees.png", width = 7, height = 7, units = "in", res= 600)
 
@@ -66,7 +66,7 @@ decid <- si_range[si_range$leaf_type == "deciduous",]
 si_ever <- lm(logSI ~ logvol, data=ever)
 si_dec <- lm(logSI ~ logvol, data=decid)
 
-windows(7,7)
+# windows(7,7)
 
  png(filename = "output/si_leaftype.png", width = 7, height = 7, units = "in", res= 600)
 

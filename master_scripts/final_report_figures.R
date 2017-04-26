@@ -1,4 +1,5 @@
 library(scales)
+library(doBy)
 
 # read data ---------------------------------------------------------------
 
@@ -19,6 +20,7 @@ fitcon <- lm(logSI ~ logvol, data=si_range)
 #standardize SI by container volume, using intercept from fitted model
 si_range$logSI_stand <- with(si_range, logSI / (logvol^coef(fitcon)[[2]]))
 
+passfail <- read.csv("data/si_passfail.csv")
 
 # si vs climate -----------------------------------------------------------
 
@@ -34,7 +36,6 @@ dev.off()
 
 # passfail table ----------------------------------------------------------
 
-passfail <- read.csv("data/si_passfail.csv")
 pf2 <- passfail[, c("toobig", "toosmall", "balanced", "volume")]
 library(doBy)
 big <- summaryBy(toobig ~ volume, data=pf2[pf2$toobig=="big",], FUN=length, keep.names = TRUE)
@@ -61,3 +62,4 @@ small<-test[test$toosmall=="small",]
 toptrees <- summaryBy(sizeindex +nursery +climate_region ~ species, FUN=function(x) 
   length(unique(x)), data=passfail, keep.names = TRUE)
 
+toptrees <- toptrees[order(-toptrees[,2]),]
