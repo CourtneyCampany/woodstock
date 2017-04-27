@@ -20,12 +20,15 @@ tree_stats <- read.csv("data/tree_stats.csv")
   #standarize other crown variables
   fitspread <- lm(log10(crown_spread) ~ logvol, data=tree_stats)
   tree_stats$crown_stand <- with(tree_stats, log10(crown_spread) / (logvol^coef(fitspread)[[2]]))
+  
   fitslender<- lm(log10(slenderness) ~ logvol, data=tree_stats)
   tree_stats$slender_stand <- with(tree_stats, log10(slenderness) / (logvol^coef(fitslender)[[2]]))
   
 #remove missing values
 tree_stats_2 <- tree_stats[complete.cases(tree_stats),]
   
+library(doBy)
+
 
 #full model stats----------------------------------------------------------
 lme_full <- lmer(logSI ~ logvol+origin+MAT+MAP+climate_region+leaf_type+crown_spread+branchper30+crown_shape
@@ -161,12 +164,23 @@ Anova(stemmod3)
 
 ##we are justified in dumping branhciness and crown shape from model as they are inherent in the leaftype effect
 ##interaction with container size and crown spread by leaftype, so drop it too
-    
-#5. Choose final model and drop parameters and compare R2
+
+# slender by region -------------------------------------------------------
+
+png(filename = "output/slender_climate.png", width = 7, height = 7, units = "in", res= 600)
+par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
+boxplot(slenderness~ climate_region, data=tree_stats, outline=FALSE, ylab="Slenderness index", names=FALSE, ylim=c(0, .17))
+mtext(side=1, at=1:6, text=c("New South\nWales", "Northern \nTerritory","Queensland \n ","South \nAustralia",
+                             "Victoria \n ","Western \nAustralia"), line=2)
+dev.off()
+
+
+#5. Choose final model and drop parameters and compare R2 ------------------------------------
 lme_final <- lmer(logSI_stand ~ leaf_type+ origin + MAT+MAP+climate_region + (1|nursery/species), data=tree_stats)
   #origin
   VarCorr(lme_final)
   summary(lme_final)
+  confint(lme_final)
   #use this as the random error in report ()
   r.squaredGLMM(lme_final)
   Anova(lme_final, test="F")
@@ -182,6 +196,8 @@ library(pixiedust)
 dust(lme_final)
 
 ##### quantify variance of the fixed effects.................. 
+delta_r2 <- update(lme_final, . ~ . - climate_region)
+r.squaredGLMM(delta_r2)  
 
 ##remove the smallest effect first, because each will be a new model and
 #we want to have best estimates possible

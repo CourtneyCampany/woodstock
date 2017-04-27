@@ -22,7 +22,7 @@ si_range$logSI_stand <- with(si_range, logSI / (logvol^coef(fitcon)[[2]]))
 
 passfail <- read.csv("data/si_passfail.csv")
 
-# si vs climate -----------------------------------------------------------
+# ssi vs region -----------------------------------------------------------
 
 windows (7,7)
 
@@ -32,7 +32,6 @@ boxplot(logSI_stand ~ climate_region, data=si_range, outline=FALSE, ylab="Standa
 mtext(side=1, at=1:6, text=c("New South\nWales", "Northern \nTerritory","Queensland \n ","South \nAustralia",
                          "Victoria \n ","Western \nAustralia"), line=2)
 dev.off()
-
 
 # passfail table ----------------------------------------------------------
 
