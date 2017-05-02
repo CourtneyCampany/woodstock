@@ -28,7 +28,7 @@ deciddat <- si_mean_range[si_mean_range$leaf_type=="deciduous",]
 #plot bits 
 
 evercol <- alpha("forestgreen", .7)
-decidcol <- alpha("darkgoldenrod3", .7)
+decidcol <- alpha("goldenrod1", .7)
 
 #height and diameter models for CI
 h_mod_evg <- lm(logH ~ logvol, data=everdat)

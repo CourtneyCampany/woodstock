@@ -26,9 +26,12 @@ tree_stats <- read.csv("data/tree_stats.csv")
   
 #remove missing values
 tree_stats_2 <- tree_stats[complete.cases(tree_stats),]
+
   
 library(doBy)
 
+ever <- tree_stats[tree_stats$leaf_type=="evergreen",]
+decid <- tree_stats[tree_stats$leaf_type=="deciduous",]
 
 #full model stats----------------------------------------------------------
 lme_full <- lmer(logSI ~ logvol+origin+MAT+MAP+climate_region+leaf_type+crown_spread+branchper30+crown_shape
@@ -172,6 +175,20 @@ par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
 boxplot(slenderness~ climate_region, data=tree_stats, outline=FALSE, ylab="Slenderness index", names=FALSE, ylim=c(0, .17))
 mtext(side=1, at=1:6, text=c("New South\nWales", "Northern \nTerritory","Queensland \n ","South \nAustralia",
                              "Victoria \n ","Western \nAustralia"), line=2)
+dev.off()
+
+png(filename = "output/slender_climate_type.png", width = 7, height = 7, units = "in", res= 600)
+boxplot(slenderness ~ climate_region, data=ever, outline=FALSE, ylab="Slenderness index", 
+        names=FALSE,  at=c(1,4,7,10,13,16), col=evercol, xlim=c(0,18), ylim=c(0, 0.16),xaxt='n')
+boxplot(slenderness ~ climate_region, data=decid, outline=FALSE, names=FALSE, at=c(2,5,8,11,14,17), 
+        col=decidcol, add=TRUE, xaxt="n")
+axis(1, at=c(1.5, 4.5, 7.5, 10.5, 13.5, 16.5), labels=FALSE)
+mtext(side=1, at=c(1.5, 4.5, 7.5, 10.5, 13.5, 16.5),
+      text=c("New South\nWales", "Northern \nTerritory","Queensland \n ","South \nAustralia",
+             "Victoria \n ","Western \nAustralia"), line=2)
+legend("topright", c("Evergreen", "Deciduous") ,pch=22,bty='n', inset=.02, pt.cex=1.5, 
+       pt.bg=c(evercol,decidcol))
+
 dev.off()
 
 

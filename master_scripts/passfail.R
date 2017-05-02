@@ -7,6 +7,13 @@ standard <- read.csv("data/container_assessment.csv")
 si_range <- si_clim[si_clim$volume >= 18,]
 si_range$balanced <- "fail"
 
+#means data
+si_means <- read.csv("data/si_means_climate.csv")
+si_means_range <- si_means[si_means$volume >= 18,]
+si_means_range$balanced <- "fail"
+si_means_pf <- si_means_range[, c(1:7, 11)]
+names(si_means_pf)[8] <- "sizeindex"
+
 # sort(unique(si_range$volume))
 
 # Does Fit Size Index? ---------------------------------------------------------
@@ -47,7 +54,7 @@ doesfit_func <- function(x) {
 }
 
 test_si <- doesfit_func(si_range)
-
+test_means <- doesfit_func(si_means_pf)
 
 # too big function --------------------------------------------------------
 toobig_func <- function(x) {
@@ -88,7 +95,7 @@ toobig_func <- function(x) {
 
 
 si_big <- toobig_func(test_si)
-
+means_big <- toobig_func(test_means)
 
 # too small function ------------------------------------------------------
 
@@ -129,13 +136,18 @@ toosmall_func <- function(x) {
 }
 
 si_small <- toosmall_func(si_big)
-
+means_small <- toosmall_func(means_big)
 
 # fitting stats -----------------------------------------------------------
 
 table(si_small$balanced)
 table(si_small$toobig)
 table(si_small$toosmall)
+
+table(means_small$balanced)
+table(means_small$toobig)
+table(means_small$toosmall)
+
 
 #subset of test_si for plotting
 si_passfail <- si_small[, c(1:20, 49:51)]

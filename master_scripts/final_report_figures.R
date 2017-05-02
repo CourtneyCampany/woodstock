@@ -23,6 +23,8 @@ si_range$logSI_stand <- with(si_range, logSI / (logvol^coef(fitcon)[[2]]))
 passfail <- read.csv("data/si_passfail.csv")
 
 # ssi vs region -----------------------------------------------------------
+ever <- si_range[si_range$leaf_type=="evergreen",]
+decid <- si_range[si_range$leaf_type=="deciduous",]
 
 windows (7,7)
 
@@ -31,6 +33,26 @@ par(mar=c(5,5,2,1),cex.axis=1, cex.lab=1,las=0,mgp=c(3,1,0))
 boxplot(logSI_stand ~ climate_region, data=si_range, outline=FALSE, ylab="Standarized size index", names=FALSE, ylim=c(.6, 1.8))
 mtext(side=1, at=1:6, text=c("New South\nWales", "Northern \nTerritory","Queensland \n ","South \nAustralia",
                          "Victoria \n ","Western \nAustralia"), line=2)
+dev.off()
+
+
+##tree type
+evercol <- alpha("forestgreen", .7)
+decidcol <- alpha("goldenrod1", .7)
+
+
+png(filename = "output/ssi_climate_type.png", width = 7, height = 7, units = "in", res= 600)
+boxplot(logSI_stand ~ climate_region, data=ever, outline=FALSE, ylab="Standarized size index", 
+        names=FALSE, ylim=c(.6, 1.8), at=c(1,4,7,10,13,16), col=evercol, xlim=c(0,18), xaxt='n')
+boxplot(logSI_stand ~ climate_region, data=decid, outline=FALSE, names=FALSE, at=c(2,5,8,11,14,17), 
+        col=decidcol, add=TRUE, xaxt="n")
+axis(1, at=c(1.5, 4.5, 7.5, 10.5, 13.5, 16.5), labels=FALSE)
+mtext(side=1, at=c(1.5, 4.5, 7.5, 10.5, 13.5, 16.5),
+      text=c("New South\nWales", "Northern \nTerritory","Queensland \n ","South \nAustralia",
+             "Victoria \n ","Western \nAustralia"), line=2)
+legend("topright", c("Evergreen", "Deciduous") ,pch=22,bty='n', inset=.02, pt.cex=1.5, 
+       pt.bg=c(evercol,decidcol))
+
 dev.off()
 
 # passfail table ----------------------------------------------------------
@@ -55,7 +77,6 @@ test <- passfail[passfail$volume==45,]
 norm <-test[test$balanced=="pass",]
 big<- test[test$toobig=="big",]
 small<-test[test$toosmall=="small",]
-
 
 # top trees  --------------------------------------------------------------
 toptrees <- summaryBy(sizeindex +nursery +climate_region ~ species, FUN=function(x) 
