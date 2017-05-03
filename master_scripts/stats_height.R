@@ -31,6 +31,10 @@ cv(tree_stats_2$logD_stand)
 var(tree_stats_2$logD)
 var(tree_stats_2$logH)
 
+#cv for size index of different clases
+cv(tree_stats_2[tree_stats_2$volume <200, "sizeindex"])
+cv(tree_stats_2[tree_stats_2$volume >=400, "sizeindex"])
+
 # full models as with SI--------------------------------------------------------------
 #height
 lmeH_full <- lmer(logH_stand ~ origin+MAT+MAP+climate_region+leaf_type
