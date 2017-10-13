@@ -1,0 +1,208 @@
+---
+title: "Appendix A with quantile regression"
+author: "Remko Duursma"
+date: "12 October 2017"
+output: word_document
+---
+
+```{r load, include=FALSE}
+library(dplyr)
+library(magicaxis)
+library(quantreg)
+library(scales)
+library(extrafont)
+
+library(knitr)
+#loadfonts(device="win")
+
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, dpi=300,
+                      fig.width=6.7, fig.height=6.7)
+
+poly_rqs <- function(mod1, mod2, ...){
+  
+  pu <- par("usr")
+  x <- pu[1:2]
+  
+  newdat <- data.frame(volume=10^x)
+  y1 <- predict(mod1, newdata=newdat)
+  y2 <- predict(mod2, newdata=newdat)
+  
+  polygon(x=c(x, rev(x)), y=c(y1, rev(y2)), border=NA, ...)
+}
+
+sitree <- read.csv("data/si_climate.csv") %>%
+  dplyr::select(volume, sizeindex, leaf_type) %>%
+  rename(si = sizeindex) %>%
+  filter(volume >= 18)
+
+sitree_small_ever <- filter(sitree, volume < 100, leaf_type=="evergreen")
+sitree_small_deci <- filter(sitree, volume < 100, leaf_type=="deciduous")
+sitree_large <- filter(sitree, volume >= 100)
+```
+
+
+```{r fit}
+
+quantiles <- c(0.05,0.1,0.25,0.75,0.9,0.95)
+fit_small_ever <- lapply(quantiles, 
+                         function(x)rq(log10(si) ~ log10(volume), data=sitree_small_ever, tau=x))
+
+fit_small_deci <- lapply(quantiles, 
+                         function(x)rq(log10(si) ~ log10(volume), data=sitree_small_deci, tau=x))
+
+fit_large <- lapply(quantiles, 
+                         function(x)rq(log10(si) ~ log10(volume), data=sitree_large, tau=x))
+
+```
+
+```{r}
+
+plot_si_ranges <- function(fits, whichfits=1:length(fits), xlim, ylim, labsrt=30,
+                           quantiles = c(0.05,0.1,0.25,0.75,0.9,0.95),
+                           poly_colors = c("grey95", "lightgrey","grey", "lightgrey", "grey95")){
+
+  fits <- fits[whichfits]
+  
+  xat <- as.vector(sapply(1:3, function(i)seq(10^i, 10^(i + 1) - 10^i, by=10^i)))
+  yat <- as.vector(sapply(0:3, function(i)seq(10^i, 10^(i + 1) - 10^i, by=10^i)))
+
+  par(yaxs="i", xaxs="i", las=1, tcl=0, cex.lab=1.2, mgp=c(2.4, 0.25, 0), cex.axis=0.7, pty='s',
+      family="Gotham Narrow Book")
+
+  plot(1, pch=16, cex=0.5, 
+                        type='n',
+                        panel.first={
+                          abline(v=log10(xat), col="grey")
+                          abline(h=log10(yat), col="grey")
+                          
+                          for(i in 1:(length(fits)-1)){
+                            poly_rqs(fits[[i]], fits[[i+1]], col=alpha(poly_colors[i], 0.6))
+                          }
+
+                        },
+                        ylim=ylim,
+                        xlim=xlim,
+                        xlab="Container Volume (L)",
+                        ylab="Size Index (calliper x height)",
+                  col="darkgrey", axes=FALSE)
+  for(i in 1:length(fits))abline(fits[[i]], lty=2, lwd=1)
+  
+  axis(1, at=log10(xat), labels=xat)
+  axis(2, at=log10(yat), labels=yat)
+  box()
+  
+  u <- par("usr")
+  xat <- u[1] + 0.2*(u[2] - u[1])
+  y <- sapply(fits, function(x)predict(x, newdata=data.frame(volume = 10^xat)))
+  labs <- paste0(100*quantiles, "%")
+  text(xat, y, labs, pos=2, font=2, cex=0.8, srt=labsrt)
+  
+  # xat <- u[1] + 0.5*(u[2] - u[1])
+  # y <- sapply(fits, function(x)predict(x, newdata=data.frame(volume = 10^xat)))
+  # y <- y[1:(length(y)-1)] + diff(y)/2
+  #hmmmm labs <- 
+  #text(xat, y, labs, pos=1, font=2, cex=0.8, srt=labsrt)
+  
+  # text(log10(40), log10(37), "Small", srt=20, font=2, col="darkgrey", adj=0)
+  # text(log10(40), log10(60), "Medium", srt=20, font=2, col="darkgrey", adj=0)
+  # text(log10(40), log10(88), "Large", srt=20, font=2, col="darkgrey", adj=0)
+  # title(main="Small trees, Deciduous", adj=0)
+  #dev.copy2pdf(file="sitree_small_deci.pdf")
+}
+
+```
+
+
+# Small, evergreen
+
+```{r}
+plot_si_ranges(fit_small_ever, xlim=log10(c(18,100)), ylim=log10(c(8,200)), labsrt=35)
+```
+
+```{r}
+plot_si_ranges(fit_small_ever, whichfits=c(1,3,4,6), 
+               poly_colors=c("lightgrey","grey","lightgrey"),
+               quantiles=c(0.05,0.25,0.75,0.95),
+               xlim=log10(c(18,100)), ylim=log10(c(8,200)), labsrt=35)
+```
+
+# Small, deciduous
+
+```{r}
+plot_si_ranges(fit_small_deci, xlim=log10(c(18,100)), ylim=log10(c(8,200)))
+```
+
+```{r}
+plot_si_ranges(fit_small_deci, 
+               whichfits=c(1,3,4,6), 
+               poly_colors=c("lightgrey","grey","lightgrey"),
+               quantiles=c(0.05,0.25,0.75,0.95),
+               xlim=log10(c(18,100)), ylim=log10(c(8,200)))
+```
+
+
+# Large
+
+```{r}
+plot_si_ranges(fit_large, xlim=log10(c(100,3000)), ylim=log10(c(50,3000)))
+```
+
+```{r}
+plot_si_ranges(fit_large, 
+               whichfits=c(1,3,4,6), 
+               poly_colors=c("lightgrey","grey","lightgrey"),
+               quantiles=c(0.05,0.25,0.75,0.95),
+               xlim=log10(c(100,3000)), ylim=log10(c(50,3000)))
+```
+
+
+# Tables
+
+```{r make_tables}
+vols <- sort(unique(sitree$volume))
+
+vols_small <- vols[vols < 100]
+vols_large <- vols[vols >= 100]
+
+tab_large <- cbind(data.frame(volume=vols_large),
+                   as.data.frame(sapply(fit_large, function(x)10^predict(x, newdata=data.frame(volume=vols_large))))
+)
+names(tab_large) <- c("volume", paste0(100*quantiles, "%"))
+
+tab_small_deci <- cbind(data.frame(volume=vols_small),
+                   as.data.frame(sapply(fit_small_deci, function(x)10^predict(x, newdata=data.frame(volume=vols_small))))
+)
+names(tab_small_deci) <- c("volume", paste0(100*quantiles, "%"))
+
+tab_small_ever <- cbind(data.frame(volume=vols_small),
+                   as.data.frame(sapply(fit_small_ever, function(x)10^predict(x, newdata=data.frame(volume=vols_small))))
+)
+names(tab_small_ever) <- c("volume", paste0(100*quantiles, "%"))
+
+
+```
+
+
+## Small, deciduous
+
+```{r}
+knitr::kable(round(tab_small_deci,0))
+```
+
+
+## Small, evergreen
+
+```{r}
+knitr::kable(round(tab_small_ever,0))
+```
+
+
+
+## Large
+
+```{r}
+knitr::kable(round(tab_large,0))
+```
+
+
+
