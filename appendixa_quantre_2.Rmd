@@ -141,6 +141,25 @@ plot_si_ranges(fits,
 ```
 
 
+```{r, echo=FALSE, results="hide"}
+library(svglite)
+
+svg("AS2303_sizeindex_small.svg")
+plot_si_ranges(fits, 
+               poly_colors=c("lightgrey","grey","lightgrey"),
+               quantiles=quantiles, labyadj=-0.05, 
+               xlim=log10(c(18,100)), ylim=log10(c(8,200)), labsrt=26)
+dev.off()
+
+svg("AS2303_sizeindex_large.svg")
+plot_si_ranges(fits, 
+               poly_colors=c("lightgrey","grey","lightgrey"),
+               quantiles=quantiles, labyadj=-0.06, 
+               xlim=log10(c(100,3000)), ylim=log10(c(50,3000)), labsrt=38)
+dev.off()
+```
+
+
 
 
 # Tables
