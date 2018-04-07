@@ -3,6 +3,9 @@ title: "Appendix A with quantile regression"
 author: "Remko Duursma"
 date: ""
 output: word_document
+params:
+  quantiles: !r c(0.05,0.25,0.5,0.75,0.95)
+  poly_colors: !r c("lightgrey","grey","lightgrey")
 ---
 
 ```{r load, include=FALSE}
@@ -11,9 +14,12 @@ library(magicaxis)
 library(quantreg)
 library(scales)
 library(extrafont)
-
+library(svglite)
 library(knitr)
+
+library(plotrix)
 #loadfonts(device="win")
+
 
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, dpi=300,
                       fig.width=6.7, fig.height=6.7)
@@ -56,14 +62,16 @@ sitree_large <- filter(sitree, volume >= 100)
 ```{r}
 plot_si_ranges <- function(fits, whichfits=1:length(fits), xlim, ylim, labsrt=30,
                            labyadj=0,
-                           these_lines=2:3,
+                           these_lines=c(2,4),
                            quantiles = c(0.05,0.1,0.25,0.75,0.9,0.95),
-                           poly_colors = c("grey95", "lightgrey", "grey", "lightgrey", "grey95")){
+                           poly_colors = NA){
 
   fits <- fits[whichfits]
   
-  xat <- c(18,25,35,150,1500, as.vector(sapply(1:3, function(i)seq(10^i, 10^(i + 1) - 10^i, by=10^i))))
-  yat <- c(15,150,1500,as.vector(sapply(0:3, function(i)seq(10^i, 10^(i + 1) - 10^i, by=10^i))))
+  xat <- c(18,25,35,150,1500, 
+           as.vector(sapply(1:3, function(i)seq(10^i, 10^(i + 1) - 10^i, by=10^i))))
+  yat <- c(15,150,1500,
+           as.vector(sapply(0:3, function(i)seq(10^i, 10^(i + 1) - 10^i, by=10^i))))
 
   par(yaxs="i", xaxs="i", las=2, tcl=0, cex.lab=1.2, 
       mgp=c(2.4, 0.25, 0), cex.axis=0.7, pty='s',
@@ -75,9 +83,15 @@ plot_si_ranges <- function(fits, whichfits=1:length(fits), xlim, ylim, labsrt=30
                           abline(v=log10(xat), col="grey")
                           abline(h=log10(yat), col="grey")
                           
+                            nf <- length(fits)
                             poly_rqs(fits[[1]], fits[[2]], reverse=TRUE)
-                            poly_rqs(fits[[2]], fits[[3]], gradient=FALSE)
-                            poly_rqs(fits[[3]], fits[[4]])
+                            poly_rqs(fits[[nf-1]], fits[[nf]])
+                            
+                            if(nf > 3){
+                              for(i in 2:(nf-2)){
+                                poly_rqs(fits[[i]], fits[[i+1]], gradient=FALSE)
+                              }
+                            }
                         },
                         ylim=ylim,
                         xlim=xlim,
@@ -90,8 +104,6 @@ plot_si_ranges <- function(fits, whichfits=1:length(fits), xlim, ylim, labsrt=30
   #   poly_rqs(fits[[i]], fits[[i+1]], col=alpha(poly_colors[i], 0.6))
   # }
 
-  
-  
   axis(1, at=log10(xat), labels=xat)
   axis(2, at=log10(yat), labels=yat)
   box()
@@ -102,12 +114,15 @@ plot_si_ranges <- function(fits, whichfits=1:length(fits), xlim, ylim, labsrt=30
   labs <- paste0(100*quantiles, "%")
   text(xat, y+labyadj, labs, pos=2, font=2, cex=0.8, srt=labsrt)
   
-  xat <- u[1] + 0.5*(u[2] - u[1])
+  xat <- u[1] + 0.7*(u[2] - u[1])
   y <- sapply(fits, function(x)predict(x, newdata=data.frame(volume = 10^xat)))
-  y <- y[1:(length(y)-1)] + diff(y)/2
-  labs <- c("","Preferred Range","")
+  y <- y[3] #y[1:(length(y)-1)] + diff(y)/2
+  labs <- "Preferred Range"
   text(xat, y, labs, pos=2, font=2, cex=1.1, srt=labsrt, col="dimgrey")
-
+  xw <- strwidth(labs, cex=1.1)
+  del <- 0.01
+  ablineclip(fits[[3]], x1=-10, x2=xat-xw-0.02, lty=3)
+  ablineclip(fits[[3]], x1=xat+0.01, x2=10^6, lty=3)
 }
 
 ```
@@ -115,8 +130,7 @@ plot_si_ranges <- function(fits, whichfits=1:length(fits), xlim, ylim, labsrt=30
 
 ```{r}
 # Single quantile regression across all sizes.
-quantiles <- c(0.05,0.25,0.75,0.95)
-fits <- lapply(quantiles, function(x)rq(log10(si) ~ log10(volume), data=sitree, tau=x))
+fits <- lapply(params$quantiles, function(x)rq(log10(si) ~ log10(volume), data=sitree, tau=x))
 ```
 
 
@@ -124,8 +138,8 @@ fits <- lapply(quantiles, function(x)rq(log10(si) ~ log10(volume), data=sitree, 
 
 ```{r}
 plot_si_ranges(fits, 
-               poly_colors=c("lightgrey","grey","lightgrey"),
-               quantiles=quantiles, labyadj=-0.05, 
+               poly_colors=poly_colors,
+               quantiles=params$quantiles, labyadj=-0.05, 
                xlim=log10(c(18,100)), ylim=log10(c(8,200)), labsrt=26)
 
 ```
@@ -135,26 +149,24 @@ plot_si_ranges(fits,
 
 ```{r}
 plot_si_ranges(fits, 
-               poly_colors=c("lightgrey","grey","lightgrey"),
-               quantiles=quantiles, labyadj=-0.06, 
+               poly_colors=poly_colors,
+               quantiles=params$quantiles, labyadj=-0.06, 
                xlim=log10(c(100,3000)), ylim=log10(c(50,3000)), labsrt=38)
 ```
 
 
 ```{r, echo=FALSE, results="hide"}
-library(svglite)
-
 svg("AS2303_sizeindex_small.svg")
 plot_si_ranges(fits, 
-               poly_colors=c("lightgrey","grey","lightgrey"),
-               quantiles=quantiles, labyadj=-0.05, 
+               poly_colors=poly_colors,
+               quantiles=params$quantiles, labyadj=-0.05, 
                xlim=log10(c(18,100)), ylim=log10(c(8,200)), labsrt=26)
 dev.off()
 
 svg("AS2303_sizeindex_large.svg")
 plot_si_ranges(fits, 
-               poly_colors=c("lightgrey","grey","lightgrey"),
-               quantiles=quantiles, labyadj=-0.06, 
+               poly_colors=poly_colors,
+               quantiles=params$quantiles, labyadj=-0.06, 
                xlim=log10(c(100,3000)), ylim=log10(c(50,3000)), labsrt=38)
 dev.off()
 ```
@@ -166,13 +178,16 @@ dev.off()
 
 ```{r make_tables}
 
-
+# Predictions across lines at all unique volumes in the dataset
 vols <- sort(unique(sitree$volume))
 
 tab_all <- cbind(data.frame(volume=vols),
-                   as.data.frame(sapply(fits, function(x)10^predict(x, newdata=data.frame(volume=vols))))
-)
-names(tab_all) <- c("volume", paste0(100*quantiles, "%"))
+                   as.data.frame(sapply(fits, 
+                                        function(x){
+                                          10^predict(x, newdata=data.frame(volume=vols))
+                                        }
+                                        )))
+names(tab_all) <- c("volume", paste0(100 * params$quantiles, "%"))
 
 
 ```
